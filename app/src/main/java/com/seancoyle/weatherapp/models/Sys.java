@@ -5,33 +5,29 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-public class SysModel {
+public class Sys {
 
     @SerializedName("type")
     @Expose
-    private int type;
-
+    private Integer type;
     @SerializedName("id")
     @Expose
-    private int id;
-
+    private Integer id;
     @SerializedName("country")
     @Expose
     private String country;
-
     @SerializedName("sunrise")
     @Expose
-    private Long sunrise;
-
+    private Integer sunrise;
     @SerializedName("sunset")
     @Expose
-    private Long sunset;
+    private Integer sunset;
 
 
-    public SysModel() {
+    public Sys() {
     }
 
-    public SysModel(int type, int id, String country, Long sunrise, Long sunset) {
+    public Sys(Integer type, Integer id, String country, Integer sunrise, Integer sunset) {
         this.type = type;
         this.id = id;
         this.country = country;
@@ -39,19 +35,19 @@ public class SysModel {
         this.sunset = sunset;
     }
 
-    public int getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -63,19 +59,30 @@ public class SysModel {
         this.country = country;
     }
 
-    public Long getSunrise() {
+    public Integer getSunrise() {
         return sunrise;
     }
 
-    public void setSunrise(Long sunrise) {
+    public void setSunrise(Integer sunrise) {
         this.sunrise = sunrise;
     }
 
-    public Long getSunset() {
+    public Integer getSunset() {
         return sunset;
     }
 
-    public void setSunset(Long sunset) {
+    public void setSunset(Integer sunset) {
         this.sunset = sunset;
+    }
+
+    @Override
+    public String toString() {
+        return "Sys{" +
+                "type=" + type +
+                ", id=" + id +
+                ", country='" + country + '\'' +
+                ", sunrise=" + sunrise +
+                ", sunset=" + sunset +
+                '}';
     }
 }

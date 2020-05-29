@@ -3,7 +3,7 @@ package com.seancoyle.weatherapp.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class CoOrdinateModel {
+public class Coord {
 
     @SerializedName("lon")
     @Expose
@@ -14,10 +14,10 @@ public class CoOrdinateModel {
     private double lat;
 
 
-    public CoOrdinateModel() {
+    public Coord() {
     }
 
-    public CoOrdinateModel(double lon, double lat) {
+    public Coord(double lon, double lat) {
         this.lon = lon;
         this.lat = lat;
     }

@@ -9,142 +9,155 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 import java.util.List;
 
-public class Weather implements Parcelable {
+public class Weather {
 
 
     @SerializedName("coord")
     @Expose
-    private CoOrdinateModel coOrdinateModel;
-
+    private Coord coord;
     @SerializedName("weather")
     @Expose
-    private List<WeatherModel> weatherModel;
-
+    private List<WeatherModel> weather = null;
+    @SerializedName("base")
+    @Expose
+    private String base;
     @SerializedName("main")
     @Expose
-    private MainModel main;
-
+    private Main main;
     @SerializedName("visibility")
     @Expose
-    private String visibility;
-
+    private Integer visibility;
     @SerializedName("wind")
     @Expose
-    private WindModel wind;
-
+    private Wind wind;
+    @SerializedName("clouds")
+    @Expose
+    private Clouds clouds;
     @SerializedName("dt")
     @Expose
-    private Date dt;
-
+    private Integer dt;
     @SerializedName("sys")
     @Expose
-    private SysModel sys;
-
+    private Sys sys;
+    @SerializedName("timezone")
+    @Expose
+    private Integer timezone;
+    @SerializedName("id")
+    @Expose
+    private Integer id;
     @SerializedName("name")
     @Expose
     private String name;
+    @SerializedName("cod")
+    @Expose
+    private Integer cod;
 
 
     public Weather() {
     }
 
-    public Weather(CoOrdinateModel coOrdinateModel, List<WeatherModel> weatherModel, MainModel main, String visibility, WindModel wind, Date dt, SysModel sys, String name) {
-        this.coOrdinateModel = coOrdinateModel;
-        this.weatherModel = weatherModel;
+    public Weather(Coord coord, List<WeatherModel> weather, String base, Main main, Integer visibility, Wind wind, Clouds clouds, Integer dt, Sys sys, Integer timezone, Integer id, String name, Integer cod) {
+        this.coord = coord;
+        this.weather = weather;
+        this.base = base;
         this.main = main;
         this.visibility = visibility;
         this.wind = wind;
+        this.clouds = clouds;
         this.dt = dt;
         this.sys = sys;
+        this.timezone = timezone;
+        this.id = id;
         this.name = name;
+        this.cod = cod;
     }
 
-    protected Weather(Parcel in) {
-        visibility = in.readString();
-        name = in.readString();
+    public Coord getCoord() {
+        return coord;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(visibility);
-        dest.writeString(name);
+    public void setCoord(Coord coord) {
+        this.coord = coord;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public List<WeatherModel> getWeather() {
+        return weather;
     }
 
-    public static final Creator<Weather> CREATOR = new Creator<Weather>() {
-        @Override
-        public Weather createFromParcel(Parcel in) {
-            return new Weather(in);
-        }
-
-        @Override
-        public Weather[] newArray(int size) {
-            return new Weather[size];
-        }
-    };
-
-    public CoOrdinateModel getCoOrdinateModel() {
-        return coOrdinateModel;
+    public void setWeather(List<WeatherModel> weather) {
+        this.weather = weather;
     }
 
-    public void setCoOrdinateModel(CoOrdinateModel coOrdinateModel) {
-        this.coOrdinateModel = coOrdinateModel;
+    public String getBase() {
+        return base;
     }
 
-    public List<WeatherModel> getWeatherModel() {
-        return weatherModel;
+    public void setBase(String base) {
+        this.base = base;
     }
 
-    public void setWeatherModel(List<WeatherModel> weatherModel) {
-        this.weatherModel = weatherModel;
-    }
-
-    public static Creator<Weather> getCREATOR() {
-        return CREATOR;
-    }
-
-    public MainModel getMain() {
+    public Main getMain() {
         return main;
     }
 
-    public void setMain(MainModel main) {
+    public void setMain(Main main) {
         this.main = main;
     }
 
-    public String getVisibility() {
+    public Integer getVisibility() {
         return visibility;
     }
 
-    public void setVisibility(String visibility) {
+    public void setVisibility(Integer visibility) {
         this.visibility = visibility;
     }
 
-    public WindModel getWind() {
+    public Wind getWind() {
         return wind;
     }
 
-    public void setWind(WindModel wind) {
+    public void setWind(Wind wind) {
         this.wind = wind;
     }
 
-    public Date getDt() {
+    public Clouds getClouds() {
+        return clouds;
+    }
+
+    public void setClouds(Clouds clouds) {
+        this.clouds = clouds;
+    }
+
+    public Integer getDt() {
         return dt;
     }
 
-    public void setDt(Date dt) {
+    public void setDt(Integer dt) {
         this.dt = dt;
     }
 
-    public SysModel getSys() {
+    public Sys getSys() {
         return sys;
     }
 
-    public void setSys(SysModel sys) {
+    public void setSys(Sys sys) {
         this.sys = sys;
+    }
+
+    public Integer getTimezone() {
+        return timezone;
+    }
+
+    public void setTimezone(Integer timezone) {
+        this.timezone = timezone;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -153,6 +166,33 @@ public class Weather implements Parcelable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getCod() {
+        return cod;
+    }
+
+    public void setCod(Integer cod) {
+        this.cod = cod;
+    }
+
+    @Override
+    public String toString() {
+        return "Weather{" +
+                "coord=" + coord +
+                ", weather=" + weather +
+                ", base='" + base + '\'' +
+                ", main=" + main +
+                ", visibility=" + visibility +
+                ", wind=" + wind +
+                ", clouds=" + clouds +
+                ", dt=" + dt +
+                ", sys=" + sys +
+                ", timezone=" + timezone +
+                ", id=" + id +
+                ", name='" + name + '\'' +
+                ", cod=" + cod +
+                '}';
     }
 }
 

@@ -7,16 +7,13 @@ public class WeatherModel {
 
     @SerializedName("id")
     @Expose
-    private long id;
-
+    private Integer id;
     @SerializedName("main")
     @Expose
     private String main;
-
     @SerializedName("description")
     @Expose
     private String description;
-
     @SerializedName("icon")
     @Expose
     private String icon;
@@ -24,18 +21,18 @@ public class WeatherModel {
     public WeatherModel() {
     }
 
-    public WeatherModel(long id, String main, String description, String icon) {
+    public WeatherModel(Integer id, String main, String description, String icon) {
         this.id = id;
         this.main = main;
         this.description = description;
         this.icon = icon;
     }
 
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -61,5 +58,15 @@ public class WeatherModel {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    @Override
+    public String toString() {
+        return "WeatherModel{" +
+                "id=" + id +
+                ", main='" + main + '\'' +
+                ", description='" + description + '\'' +
+                ", icon='" + icon + '\'' +
+                '}';
     }
 }

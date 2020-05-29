@@ -1,6 +1,6 @@
 package com.seancoyle.weatherapp.requests;
 
-import com.seancoyle.weatherapp.requests.responses.WeatherResponse;
+import com.seancoyle.weatherapp.models.Weather;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -10,7 +10,7 @@ public interface WeatherApi {
 
 
     @GET("/data/2.5/weather")
-    Call<WeatherResponse> getWeather(
+    Call<Weather> getWeather(
             @Query("id") String BELFAST_ID,
             @Query("APPID") String API_KEY
     );

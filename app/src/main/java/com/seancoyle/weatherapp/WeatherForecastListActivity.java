@@ -6,9 +6,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.seancoyle.weatherapp.models.Weather;
 import com.seancoyle.weatherapp.requests.ServiceGenerator;
 import com.seancoyle.weatherapp.requests.WeatherApi;
-import com.seancoyle.weatherapp.requests.responses.WeatherResponse;
 import com.seancoyle.weatherapp.util.Constants;
 
 import retrofit2.Call;
@@ -44,13 +44,13 @@ public class WeatherForecastListActivity extends BaseActivity {
 
         WeatherApi weatherApi = ServiceGenerator.getWeatherApi();
 
-        Call <WeatherResponse> responseCall = weatherApi.getWeather(
+        Call <Weather> responseCall = weatherApi.getWeather(
                 Constants.BELFAST_ID,
                 Constants.API_KEY
         );
-        responseCall.enqueue(new Callback<WeatherResponse>() {
+        responseCall.enqueue(new Callback<Weather>() {
             @Override
-            public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
+            public void onResponse(Call<Weather> call, Response<Weather> response) {
 
                 Log.d(TAG, "onResponse: server response " + response.toString());
 
@@ -60,7 +60,7 @@ public class WeatherForecastListActivity extends BaseActivity {
                   //  Weather weather = response.body().getWeather();
                     Log.d(TAG, "onResponse: " + response.body().toString());
 
-                    Toast.makeText(WeatherForecastListActivity.this, "Test"+response.body().getWeather().getMain(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WeatherForecastListActivity.this, "Test"+response.body().getMain().toString(), Toast.LENGTH_SHORT).show();
 
                 } else {
                     Log.d(TAG, "onResponse: " + response.errorBody().toString());
@@ -68,7 +68,7 @@ public class WeatherForecastListActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(Call<WeatherResponse> call, Throwable t) {
+            public void onFailure(Call<Weather> call, Throwable t) {
                 Log.d(TAG, "onResponse: ERROR: " + t.getMessage());
             }
         });

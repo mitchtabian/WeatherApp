@@ -35,7 +35,7 @@ public class Weather {
     private Clouds clouds;
     @SerializedName("dt")
     @Expose
-    private Integer dt;
+    private Long dt;
     @SerializedName("sys")
     @Expose
     private Sys sys;
@@ -56,7 +56,7 @@ public class Weather {
     public Weather() {
     }
 
-    public Weather(Coord coord, List<WeatherModel> weather, String base, Main main, Integer visibility, Wind wind, Clouds clouds, Integer dt, Sys sys, Integer timezone, Integer id, String name, Integer cod) {
+    public Weather(Coord coord, List<WeatherModel> weather, String base, Main main, Integer visibility, Wind wind, Clouds clouds, Long dt, Sys sys, Integer timezone, Integer id, String name, Integer cod) {
         this.coord = coord;
         this.weather = weather;
         this.base = base;
@@ -128,11 +128,11 @@ public class Weather {
         this.clouds = clouds;
     }
 
-    public Integer getDt() {
+    public Long getDt() {
         return dt;
     }
 
-    public void setDt(Integer dt) {
+    public void setDt(Long dt) {
         this.dt = dt;
     }
 

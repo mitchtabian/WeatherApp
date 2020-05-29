@@ -3,66 +3,76 @@ package com.seancoyle.weatherapp.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 public class Weather implements Parcelable {
 
 
     @SerializedName("coord")
-    private float coOrd[];
+    @Expose
+    private CoOrdinateModel coOrdinateModel;
 
     @SerializedName("weather")
-    private String weather[];
+    @Expose
+    private List<WeatherModel> weatherModel;
 
     @SerializedName("main")
-    private float main[];
+    @Expose
+    private MainModel main;
 
     @SerializedName("visibility")
+    @Expose
     private String visibility;
 
     @SerializedName("wind")
-    private String wind[];
-
-    @SerializedName("clouds")
-    private String clouds[];
+    @Expose
+    private WindModel wind;
 
     @SerializedName("dt")
+    @Expose
     private Date dt;
 
     @SerializedName("sys")
-    private Date sys[];
+    @Expose
+    private SysModel sys;
 
     @SerializedName("name")
+    @Expose
     private String name;
 
 
     public Weather() {
     }
 
-
-    public Weather(float[] coOrd, String[] weather, float[] main, String visibility, String[] wind, String[] clouds, Date dt, Date[] sys, String name) {
-        this.coOrd = coOrd;
-        this.weather = weather;
+    public Weather(CoOrdinateModel coOrdinateModel, List<WeatherModel> weatherModel, MainModel main, String visibility, WindModel wind, Date dt, SysModel sys, String name) {
+        this.coOrdinateModel = coOrdinateModel;
+        this.weatherModel = weatherModel;
         this.main = main;
         this.visibility = visibility;
         this.wind = wind;
-        this.clouds = clouds;
         this.dt = dt;
         this.sys = sys;
         this.name = name;
     }
 
     protected Weather(Parcel in) {
-        coOrd = in.createFloatArray();
-        weather = in.createStringArray();
-        main = in.createFloatArray();
         visibility = in.readString();
-        wind = in.createStringArray();
-        clouds = in.createStringArray();
         name = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(visibility);
+        dest.writeString(name);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Weather> CREATOR = new Creator<Weather>() {
@@ -77,27 +87,31 @@ public class Weather implements Parcelable {
         }
     };
 
-    public float[] getCoOrd() {
-        return coOrd;
+    public CoOrdinateModel getCoOrdinateModel() {
+        return coOrdinateModel;
     }
 
-    public void setCoOrd(float[] coOrd) {
-        this.coOrd = coOrd;
+    public void setCoOrdinateModel(CoOrdinateModel coOrdinateModel) {
+        this.coOrdinateModel = coOrdinateModel;
     }
 
-    public String[] getWeather() {
-        return weather;
+    public List<WeatherModel> getWeatherModel() {
+        return weatherModel;
     }
 
-    public void setWeather(String[] weather) {
-        this.weather = weather;
+    public void setWeatherModel(List<WeatherModel> weatherModel) {
+        this.weatherModel = weatherModel;
     }
 
-    public float[] getMain() {
+    public static Creator<Weather> getCREATOR() {
+        return CREATOR;
+    }
+
+    public MainModel getMain() {
         return main;
     }
 
-    public void setMain(float[] main) {
+    public void setMain(MainModel main) {
         this.main = main;
     }
 
@@ -109,20 +123,12 @@ public class Weather implements Parcelable {
         this.visibility = visibility;
     }
 
-    public String[] getWind() {
+    public WindModel getWind() {
         return wind;
     }
 
-    public void setWind(String[] wind) {
+    public void setWind(WindModel wind) {
         this.wind = wind;
-    }
-
-    public String[] getClouds() {
-        return clouds;
-    }
-
-    public void setClouds(String[] clouds) {
-        this.clouds = clouds;
     }
 
     public Date getDt() {
@@ -133,11 +139,11 @@ public class Weather implements Parcelable {
         this.dt = dt;
     }
 
-    public Date[] getSys() {
+    public SysModel getSys() {
         return sys;
     }
 
-    public void setSys(Date[] sys) {
+    public void setSys(SysModel sys) {
         this.sys = sys;
     }
 
@@ -148,35 +154,5 @@ public class Weather implements Parcelable {
     public void setName(String name) {
         this.name = name;
     }
-
-    @Override
-    public String toString() {
-        return "Weather{" +
-                "coOrd=" + Arrays.toString(coOrd) +
-                ", weather=" + Arrays.toString(weather) +
-                ", main=" + Arrays.toString(main) +
-                ", visibility='" + visibility + '\'' +
-                ", wind=" + Arrays.toString(wind) +
-                ", clouds=" + Arrays.toString(clouds) +
-                ", dt=" + dt +
-                ", sys=" + Arrays.toString(sys) +
-                ", name='" + name + '\'' +
-                '}';
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeFloatArray(coOrd);
-        dest.writeStringArray(weather);
-        dest.writeFloatArray(main);
-        dest.writeString(visibility);
-        dest.writeStringArray(wind);
-        dest.writeStringArray(clouds);
-        dest.writeString(name);
-    }
 }
+

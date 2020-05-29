@@ -1,23 +1,15 @@
 package com.seancoyle.weatherapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Service;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
-import com.seancoyle.weatherapp.models.Weather;
 import com.seancoyle.weatherapp.requests.ServiceGenerator;
 import com.seancoyle.weatherapp.requests.WeatherApi;
 import com.seancoyle.weatherapp.requests.responses.WeatherResponse;
 import com.seancoyle.weatherapp.util.Constants;
-
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,7 +44,7 @@ public class WeatherForecastListActivity extends BaseActivity {
 
         WeatherApi weatherApi = ServiceGenerator.getWeatherApi();
 
-        Call<WeatherResponse> responseCall = weatherApi.getWeather(
+        Call <WeatherResponse> responseCall = weatherApi.getWeather(
                 Constants.BELFAST_ID,
                 Constants.API_KEY
         );
@@ -65,8 +57,10 @@ public class WeatherForecastListActivity extends BaseActivity {
                 // response code 200 means a successful request
                 // if successful store the response body in the lod
                 if(response.code() == 200){
-                    Weather weather = response.body().getWeather();
+                  //  Weather weather = response.body().getWeather();
                     Log.d(TAG, "onResponse: " + response.body().toString());
+
+                    Toast.makeText(WeatherForecastListActivity.this, "Test"+response.body().getWeather().getMain(), Toast.LENGTH_SHORT).show();
 
                 } else {
                     Log.d(TAG, "onResponse: " + response.errorBody().toString());

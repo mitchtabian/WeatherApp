@@ -3,10 +3,8 @@ package com.seancoyle.weatherapp.viewmodels;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.seancoyle.weatherapp.models.Weather;
+import com.seancoyle.weatherapp.models.WeatherResponse;
 import com.seancoyle.weatherapp.repositories.WeatherRepository;
-
-import java.util.List;
 
 public class WeatherViewModel extends ViewModel {
 
@@ -26,15 +24,15 @@ public class WeatherViewModel extends ViewModel {
      * Method to return live weather data from the repository
      * @return
      */
-    public LiveData<List<Weather>> getWeather() {
+    public LiveData<WeatherResponse> getWeather() {
         return mWeatherRepository.getWeather();
     }
 
 
 
 
-    public void searchWeatherApi(int locationCode, String apiKey){
-        mWeatherRepository.searchWeatherApi(locationCode, apiKey);
+    public void searchWeatherApi(int locationCode, String apiKey, String metric, int count){
+        mWeatherRepository.searchWeatherApi(locationCode, apiKey, metric, count);
     }
 
 }

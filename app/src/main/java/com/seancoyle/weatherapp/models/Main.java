@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Main {
 
+
     @SerializedName("temp")
     @Expose
     private Double temp;
@@ -19,21 +20,50 @@ public class Main {
     private Double tempMax;
     @SerializedName("pressure")
     @Expose
-    private Integer pressure;
+    private Long pressure;
+    @SerializedName("sea_level")
+    @Expose
+    private Long seaLevel;
+    @SerializedName("grnd_level")
+    @Expose
+    private Long grndLevel;
     @SerializedName("humidity")
     @Expose
-    private Integer humidity;
+    private Long humidity;
+    @SerializedName("temp_kf")
+    @Expose
+    private Double tempKf;
 
+    /**
+     * No args constructor for use in serialization
+     *
+     */
     public Main() {
     }
 
-    public Main(Double temp, Double feelsLike, Double tempMin, Double tempMax, Integer pressure, Integer humidity) {
+    /**
+     *
+     * @param feelsLike
+     * @param tempMax
+     * @param temp
+     * @param seaLevel
+     * @param humidity
+     * @param pressure
+     * @param tempKf
+     * @param grndLevel
+     * @param tempMin
+     */
+    public Main(Double temp, Double feelsLike, Double tempMin, Double tempMax, Long pressure, Long seaLevel, Long grndLevel, Long humidity, Double tempKf) {
+        super();
         this.temp = temp;
         this.feelsLike = feelsLike;
         this.tempMin = tempMin;
         this.tempMax = tempMax;
         this.pressure = pressure;
+        this.seaLevel = seaLevel;
+        this.grndLevel = grndLevel;
         this.humidity = humidity;
+        this.tempKf = tempKf;
     }
 
     public Double getTemp() {
@@ -68,20 +98,44 @@ public class Main {
         this.tempMax = tempMax;
     }
 
-    public Integer getPressure() {
+    public Long getPressure() {
         return pressure;
     }
 
-    public void setPressure(Integer pressure) {
+    public void setPressure(Long pressure) {
         this.pressure = pressure;
     }
 
-    public Integer getHumidity() {
+    public Long getSeaLevel() {
+        return seaLevel;
+    }
+
+    public void setSeaLevel(Long seaLevel) {
+        this.seaLevel = seaLevel;
+    }
+
+    public Long getGrndLevel() {
+        return grndLevel;
+    }
+
+    public void setGrndLevel(Long grndLevel) {
+        this.grndLevel = grndLevel;
+    }
+
+    public Long getHumidity() {
         return humidity;
     }
 
-    public void setHumidity(Integer humidity) {
+    public void setHumidity(Long humidity) {
         this.humidity = humidity;
+    }
+
+    public Double getTempKf() {
+        return tempKf;
+    }
+
+    public void setTempKf(Double tempKf) {
+        this.tempKf = tempKf;
     }
 
     @Override
@@ -92,7 +146,10 @@ public class Main {
                 ", tempMin=" + tempMin +
                 ", tempMax=" + tempMax +
                 ", pressure=" + pressure +
+                ", seaLevel=" + seaLevel +
+                ", grndLevel=" + grndLevel +
                 ", humidity=" + humidity +
+                ", tempKf=" + tempKf +
                 '}';
     }
 }

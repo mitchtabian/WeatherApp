@@ -1,10 +1,9 @@
 package com.seancoyle.weatherapp.repositories;
 
 import androidx.lifecycle.LiveData;
-import com.seancoyle.weatherapp.models.Weather;
+import com.seancoyle.weatherapp.models.WeatherResponse;
 import com.seancoyle.weatherapp.requests.WeatherApiClient;
 
-import java.util.List;
 
 public class WeatherRepository {
 
@@ -41,13 +40,13 @@ public class WeatherRepository {
      *
      * @return
      */
-    public LiveData<List<Weather>> getWeather() {
+    public LiveData<WeatherResponse> getWeather() {
         return mWeatherApiClient.getWeather();
     }
 
-    public void searchWeatherApi(int locationCode, String apiKey){
+    public void searchWeatherApi(int locationCode, String apiKey, String metric, int count){
 
-        mWeatherApiClient.searchWeatherAPI(locationCode, apiKey);
+        mWeatherApiClient.searchWeatherAPI(locationCode, apiKey, metric, count);
     }
 
 }

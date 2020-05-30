@@ -1,26 +1,21 @@
 package com.seancoyle.weatherapp.requests;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.seancoyle.weatherapp.AppExecutors;
-import com.seancoyle.weatherapp.models.Weather;
+import com.seancoyle.weatherapp.models.WeatherResponse;
 
 import java.io.IOException;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
 import retrofit2.Response;
 
-import static com.seancoyle.weatherapp.util.Constants.API_KEY;
-import static com.seancoyle.weatherapp.util.Constants.BELFAST_ID;
 import static com.seancoyle.weatherapp.util.Constants.NETWORK_TIMEOUT;
 
 public class WeatherApiClient {
@@ -36,7 +31,8 @@ public class WeatherApiClient {
     private static WeatherApiClient instance;
 
 
-    private MutableLiveData<List<Weather>> mWeather;
+    private MutableLiveData<WeatherResponse> mWeather;
+
 
     private RetrieveWeatherRunnable mRetrieveWeatherRunnable;
 
@@ -63,17 +59,16 @@ public class WeatherApiClient {
      *
      * @return
      */
-    public LiveData<List<Weather>> getWeather() {
+    public LiveData<WeatherResponse> getWeather() {
         return mWeather;
     }
 
 
-    public void searchWeatherAPI(int locationCode, String apiKey) {
+    public void searchWeatherAPI(int locationCode, String apiKey, String metric, int count) {
 
-        if (mRetrieveWeatherRunnable != null) {
-            mRetrieveWeatherRunnable = null;
+        if (mRetrieveWeatherRunnable == null) {
+            mRetrieveWeatherRunnable = new RetrieveWeatherRunnable(locationCode, apiKey, metric, count);
         }
-        mRetrieveWeatherRunnable = new RetrieveWeatherRunnable(locationCode, apiKey);
 
         final Future handler = AppExecutors.getInstance().netWorkIO().submit(mRetrieveWeatherRunnable);
 
@@ -92,11 +87,15 @@ public class WeatherApiClient {
 
         private int locationCode;
         private String apiKey;
+        private String metric;
+        private int count;
         boolean cancelRequest;
 
-        private RetrieveWeatherRunnable(int locationCode, String apiKey) {
+        private RetrieveWeatherRunnable(int locationCode, String apiKey, String metric, int count) {
             this.locationCode = locationCode;
             this.apiKey = apiKey;
+            this.metric = metric;
+            this.count = count;
             cancelRequest = false;
         }
 
@@ -105,7 +104,7 @@ public class WeatherApiClient {
 
             // Executes the network request on a background thread
             try {
-                Response response = getWeather(locationCode, apiKey).execute();
+                Response response = getWeather(locationCode, apiKey, metric, count).execute();
                 if (cancelRequest) {
                     return;
                 }
@@ -114,8 +113,8 @@ public class WeatherApiClient {
                     //  Weather weather = response.body().getWeather();
                     Log.d(TAG, "onResponse: " + response.body().toString());
 
-                   // List<Weather> list = new ArrayList<>(((Weather)response.body()));
-                    //mWeather.postValue(response);
+                   // List<OpenWeatherMap> list = new ArrayList<OpenWeatherMap>((Collection<? extends OpenWeatherMap>) response.body());
+                   // mWeather.postValue(list);
 
                 } else {
 
@@ -139,10 +138,12 @@ public class WeatherApiClient {
          * @param apiKey
          * @return
          */
-        private Call<Weather> getWeather(int locationCode, String apiKey) {
+        private Call<WeatherResponse> getWeather(int locationCode, String apiKey, String metric, int count) {
             return ServiceGenerator.getWeatherApi().getWeather(
                     locationCode,
-                    apiKey);
+                    apiKey,
+                    metric,
+                    count);
         }
 
         /**

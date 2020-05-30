@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.seancoyle.weatherapp.R;
-import com.seancoyle.weatherapp.models.Weather;
+import com.seancoyle.weatherapp.models.WeatherList;
 
 import java.util.Date;
 import java.util.List;
@@ -26,7 +26,7 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
     /**
      * List of type weather
      */
-    private List<Weather> mWeather;
+    private List<WeatherList> mWeather;
 
     /**
      * Listener to detect user clicks on a specific viewholder in the recycler view.
@@ -55,7 +55,7 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
     }
 
 
-    public WeatherRecyclerAdapter(Context context, List<Weather> allWeather) {
+    public WeatherRecyclerAdapter(Context context, List<WeatherList> allWeather) {
         this.mContext = context;
         this.mWeather = allWeather;
 
@@ -74,7 +74,7 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
 
         // moodIconArrayList();
 
-        Weather currentWeather = mWeather.get(position);
+        WeatherList currentWeather = mWeather.get(position);
 
         // Gets date from the database for the log
         //long weatherDate = currentWeather.getDt();
@@ -99,10 +99,10 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
 
 
         // Sets the date string to the View holder
-        holder.mDate.setText(currentWeather.getDt().toString());
-        holder.mTemperature.setText(currentWeather.getMain().getTemp().toString());
+      //  holder.mDate.setText(currentWeather.getList().);
+       // holder.mTemperature.setText(currentWeather);
         holder.mWeatherImage.setImageResource(R.drawable.sunny_clear);
-        holder.mLocation.setText(currentWeather.getName());
+      //  holder.mLocation.setText(currentWeather.getCity().getCountry());
        // holder.mDescription.setText((currentWeather.getWeather().));
     }
 

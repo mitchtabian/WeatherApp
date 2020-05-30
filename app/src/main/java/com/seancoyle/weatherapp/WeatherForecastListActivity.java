@@ -2,7 +2,6 @@ package com.seancoyle.weatherapp;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -13,22 +12,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.seancoyle.weatherapp.adapters.EmptyAdapter;
 import com.seancoyle.weatherapp.adapters.WeatherRecyclerAdapter;
-import com.seancoyle.weatherapp.models.Weather;
+import com.seancoyle.weatherapp.models.WeatherResponse;
+import com.seancoyle.weatherapp.models.WeatherList;
 import com.seancoyle.weatherapp.requests.ServiceGenerator;
 import com.seancoyle.weatherapp.requests.WeatherApi;
-import com.seancoyle.weatherapp.requests.WeatherApiClient;
 import com.seancoyle.weatherapp.util.Constants;
-import com.seancoyle.weatherapp.util.Testing;
 import com.seancoyle.weatherapp.viewmodels.WeatherViewModel;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.seancoyle.weatherapp.util.Constants.API_KEY;
-import static com.seancoyle.weatherapp.util.Constants.BELFAST_ID;
 
 public class WeatherForecastListActivity extends BaseActivity implements WeatherRecyclerAdapter.OnLogListener {
 
@@ -55,7 +48,7 @@ public class WeatherForecastListActivity extends BaseActivity implements Weather
     /**
      * List of type weather which contains the models used to parse the json.
      */
-    private List<Weather> mWeatherList;
+    private WeatherResponse mWeatherList;
 
 
     @Override
@@ -92,10 +85,13 @@ public class WeatherForecastListActivity extends BaseActivity implements Weather
     /**
      * Method which contains the retrofit response from the API.
      * @param
+     * @param
      */
-    private void setAdapterWithResults(List<Weather> weathers) {
+    private void setAdapterWithResults(Response<WeatherResponse> response) {
 
-        mWeatherRecyclerAdapter = new WeatherRecyclerAdapter(this, weathers);
+        mWeatherList = response.body();
+
+       // mWeatherRecyclerAdapter = new WeatherRecyclerAdapter(this, mWeatherList);
         mRecyclerView.setAdapter(mWeatherRecyclerAdapter);
         mWeatherRecyclerAdapter.setOnLogListener(this);
         mWeatherRecyclerAdapter.notifyDataSetChanged();
@@ -106,33 +102,39 @@ public class WeatherForecastListActivity extends BaseActivity implements Weather
      * Method used to observe live data- when the weather data updates the observer will refresh.
      */
     private void subscribeObservers() {
-        mWeatherListViewModel.getWeather().observe(this, new Observer<List<Weather>>() {
+        mWeatherListViewModel.getWeather().observe(this, new Observer<WeatherResponse>() {
             @Override
-            public void onChanged(List<Weather> weathers) {
+            public void onChanged(WeatherResponse weathers) {
 
                 if (weathers != null) {
-                    Testing.printWeather(weathers, "weather test");
+               /*     Testing.printWeather(weathers, "weather test");
                     mWeatherList = weathers;
-                    setAdapterWithResults(mWeatherList);
+                   setAdapterWithResults(mWeatherList);*/
                 }
             }
         });
     }
 
+    private void searchWeatherApi(int locationCode, String apiKey, String metric, int count) {
+        mWeatherListViewModel.searchWeatherApi(locationCode, apiKey, metric, count);
+    }
+
     private void testRetrofitRequest() {
 
-        searchWeatherApi(BELFAST_ID, API_KEY);
+       // searchWeatherApi(BELFAST_ID, API_KEY, METRIC, COUNT);
 
-        /*
+
         WeatherApi weatherApi = ServiceGenerator.getWeatherApi();
 
-        Call<Weather> responseCall = weatherApi.getWeather(
+        Call<WeatherResponse>  responseCall = weatherApi.getWeather(
                 Constants.BELFAST_ID,
-                Constants.API_KEY
+                Constants.API_KEY,
+                Constants.METRIC,
+                Constants.COUNT
         );
-        responseCall.enqueue(new Callback<Weather>() {
+        responseCall.enqueue(new Callback<WeatherResponse> () {
             @Override
-            public void onResponse(Call<Weather> call, Response<Weather> response) {
+            public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse>  response) {
 
                 Log.d(TAG, "onResponse: server response " + response.toString());
 
@@ -141,8 +143,11 @@ public class WeatherForecastListActivity extends BaseActivity implements Weather
                 if (response.code() == 200) {
                     //  Weather weather = response.body().getWeather();
                     Log.d(TAG, "onResponse: " + response.body().toString());
+                  //  mWeatherList = response;
+                  // setAdapterWithResults(response);
 
-                    Toast.makeText(WeatherForecastListActivity.this, "Test" + response.body().getMain().toString(), Toast.LENGTH_SHORT).show();
+
+                    Toast.makeText(WeatherForecastListActivity.this, "Test" + response.body(), Toast.LENGTH_SHORT).show();
 
                 } else {
                     Log.d(TAG, "onResponse: " + response.errorBody().toString());
@@ -150,17 +155,15 @@ public class WeatherForecastListActivity extends BaseActivity implements Weather
             }
 
             @Override
-            public void onFailure(Call<Weather> call, Throwable t) {
+            public void onFailure(Call<WeatherResponse> call, Throwable t) {
                 Log.d(TAG, "onResponse: ERROR: " + t.getMessage());
 
             }
-        });*/
+        });
     }
 
 
-    private void searchWeatherApi(int locationCode, String apiKey) {
-        mWeatherListViewModel.searchWeatherApi(locationCode, apiKey);
-    }
+
 
     @Override
     public void onLogClick(int position) {

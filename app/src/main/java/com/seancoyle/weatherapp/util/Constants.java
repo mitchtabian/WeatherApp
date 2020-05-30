@@ -8,6 +8,10 @@ public class Constants {
 
     public static final int BELFAST_ID = 2655984;
 
+    public static final String METRIC = "metric";
+
+    public static final int COUNT = 5;
+
     public static final int NETWORK_TIMEOUT = 3000;
 
 }

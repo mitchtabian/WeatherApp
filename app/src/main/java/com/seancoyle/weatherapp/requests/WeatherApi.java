@@ -1,5 +1,6 @@
 package com.seancoyle.weatherapp.requests;
 
+import com.seancoyle.weatherapp.models.AllWeather;
 import com.seancoyle.weatherapp.models.WeatherList;
 import com.seancoyle.weatherapp.models.WeatherResponse;
 

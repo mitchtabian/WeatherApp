@@ -20,7 +20,7 @@ public class WeatherResponse {
     private Long cnt;
     @SerializedName("list")
     @Expose
-    private List<WeatherList> list = new ArrayList<>();
+    private List<WeatherList> results;
     @SerializedName("city")
     @Expose
     private City city;
@@ -32,22 +32,15 @@ public class WeatherResponse {
     public WeatherResponse() {
     }
 
-    /**
-     *
-     * @param city
-     * @param cnt
-     * @param cod
-     * @param message
-     * @param list
-     */
-    public WeatherResponse(String cod, Long message, Long cnt, List<WeatherList> list, City city) {
-        super();
+    public WeatherResponse(String cod, Long message, Long cnt, List<WeatherList> results, City city) {
         this.cod = cod;
         this.message = message;
         this.cnt = cnt;
-        this.list = list;
+        this.results = results;
         this.city = city;
     }
+
+
 
     public String getCod() {
         return cod;
@@ -73,12 +66,12 @@ public class WeatherResponse {
         this.cnt = cnt;
     }
 
-    public List<WeatherList> getList() {
-        return list;
+    public List<WeatherList> getResults() {
+        return results;
     }
 
-    public void setList(List<WeatherList> list) {
-        this.list = list;
+    public void setResults(List<WeatherList> results) {
+        this.results = results;
     }
 
     public City getCity() {
@@ -92,11 +85,11 @@ public class WeatherResponse {
 
     @Override
     public String toString() {
-        return "Weather{" +
+        return "WeatherResponse{" +
                 "cod='" + cod + '\'' +
                 ", message=" + message +
                 ", cnt=" + cnt +
-                ", list=" + list +
+                ", results=" + results +
                 ", city=" + city +
                 '}';
     }

@@ -6,10 +6,13 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.seancoyle.weatherapp.AppExecutors;
+import com.seancoyle.weatherapp.models.AllWeather;
+import com.seancoyle.weatherapp.models.WeatherList;
 import com.seancoyle.weatherapp.models.WeatherResponse;
 
 import java.io.IOException;
 
+import java.util.List;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
@@ -31,7 +34,7 @@ public class WeatherApiClient {
     private static WeatherApiClient instance;
 
 
-    private MutableLiveData<WeatherResponse> mWeather;
+    private MutableLiveData<AllWeather> mWeather;
 
 
     private RetrieveWeatherRunnable mRetrieveWeatherRunnable;
@@ -59,7 +62,7 @@ public class WeatherApiClient {
      *
      * @return
      */
-    public LiveData<WeatherResponse> getWeather() {
+    public LiveData<AllWeather> getWeather() {
         return mWeather;
     }
 
@@ -103,7 +106,7 @@ public class WeatherApiClient {
         public void run() {
 
             // Executes the network request on a background thread
-            try {
+           /* try {
                 Response response = getWeather(locationCode, apiKey, metric, count).execute();
                 if (cancelRequest) {
                     return;
@@ -113,6 +116,7 @@ public class WeatherApiClient {
                     //  Weather weather = response.body().getWeather();
                     Log.d(TAG, "onResponse: " + response.body().toString());
 
+                    //List<WeatherList> movies = response.body().;
                    // List<OpenWeatherMap> list = new ArrayList<OpenWeatherMap>((Collection<? extends OpenWeatherMap>) response.body());
                    // mWeather.postValue(list);
 
@@ -127,7 +131,7 @@ public class WeatherApiClient {
             } catch (IOException e) {
                 e.printStackTrace();
                 mWeather.postValue(null);
-            }
+            }*/
 
         }
 
@@ -138,13 +142,13 @@ public class WeatherApiClient {
          * @param apiKey
          * @return
          */
-        private Call<WeatherResponse> getWeather(int locationCode, String apiKey, String metric, int count) {
+       /* private Call<AllWeather> getWeather(int locationCode, String apiKey, String metric, int count) {
             return ServiceGenerator.getWeatherApi().getWeather(
                     locationCode,
                     apiKey,
                     metric,
                     count);
-        }
+        }*/
 
         /**
          * Method which sets the cancel request boolean to true

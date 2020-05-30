@@ -1,6 +1,8 @@
 package com.seancoyle.weatherapp.repositories;
 
 import androidx.lifecycle.LiveData;
+
+import com.seancoyle.weatherapp.models.AllWeather;
 import com.seancoyle.weatherapp.models.WeatherResponse;
 import com.seancoyle.weatherapp.requests.WeatherApiClient;
 
@@ -40,7 +42,7 @@ public class WeatherRepository {
      *
      * @return
      */
-    public LiveData<WeatherResponse> getWeather() {
+    public LiveData<AllWeather> getWeather() {
         return mWeatherApiClient.getWeather();
     }
 

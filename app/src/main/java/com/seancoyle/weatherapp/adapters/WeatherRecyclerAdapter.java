@@ -11,7 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.seancoyle.weatherapp.R;
+import com.seancoyle.weatherapp.models.AllWeather;
 import com.seancoyle.weatherapp.models.WeatherList;
+import com.seancoyle.weatherapp.models.WeatherResponse;
 
 import java.util.Date;
 import java.util.List;
@@ -27,6 +29,8 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
      * List of type weather
      */
     private List<WeatherList> mWeather;
+    private List<WeatherResponse> mWeatherResponse;
+    private List<AllWeather> mAllWeather;
 
     /**
      * Listener to detect user clicks on a specific viewholder in the recycler view.
@@ -55,9 +59,10 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
     }
 
 
-    public WeatherRecyclerAdapter(Context context, List<WeatherList> allWeather) {
+    public WeatherRecyclerAdapter(Context context, List<WeatherResponse> results) {
         this.mContext = context;
-        this.mWeather = allWeather;
+        this.mWeatherResponse = results;
+       // this.mWeatherResponse = weatherResponse;
 
     }
 
@@ -72,9 +77,12 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
     @Override
     public void onBindViewHolder(@NonNull WeatherRecyclerAdapter.WeatherViewHolder holder, int position) {
 
+
+
         // moodIconArrayList();
 
         WeatherList currentWeather = mWeather.get(position);
+        WeatherResponse weatherResponse = mWeatherResponse.get(position);
 
         // Gets date from the database for the log
         //long weatherDate = currentWeather.getDt();
@@ -99,11 +107,13 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
 
 
         // Sets the date string to the View holder
-      //  holder.mDate.setText(currentWeather.getList().);
-       // holder.mTemperature.setText(currentWeather);
+        holder.mDate.setText(currentWeather.getDt().toString());
+        holder.mTemperature.setText(currentWeather.getMain().getTemp().toString());
         holder.mWeatherImage.setImageResource(R.drawable.sunny_clear);
-      //  holder.mLocation.setText(currentWeather.getCity().getCountry());
-       // holder.mDescription.setText((currentWeather.getWeather().));
+        holder.mLocation.setText(weatherResponse.getCity().getName());
+        holder.mDescription.setText((weatherResponse.getCity().getName()));
+
+
     }
 
 

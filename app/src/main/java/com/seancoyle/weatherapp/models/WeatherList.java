@@ -3,7 +3,6 @@ package com.seancoyle.weatherapp.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class WeatherList {
@@ -14,11 +13,9 @@ public class WeatherList {
     @SerializedName("main")
     @Expose
     private Main main;
-
     @SerializedName("weather")
     @Expose
-    private List<Weather> weather = new ArrayList<>();
-
+    private List<Weather> results;
     @SerializedName("clouds")
     @Expose
     private Clouds clouds;
@@ -39,21 +36,10 @@ public class WeatherList {
     public WeatherList() {
     }
 
-    /**
-     *
-     * @param dt
-     * @param dtTxt
-     * @param weather
-     * @param main
-     * @param clouds
-     * @param sys
-     * @param wind
-     */
-    public WeatherList(Long dt, Main main, java.util.List<Weather> weather, Clouds clouds, Wind wind, Sys sys, String dtTxt) {
-        super();
+    public WeatherList(Long dt, Main main, List<Weather> results, Clouds clouds, Wind wind, Sys sys, String dtTxt) {
         this.dt = dt;
         this.main = main;
-        this.weather = weather;
+        this.results = results;
         this.clouds = clouds;
         this.wind = wind;
         this.sys = sys;
@@ -76,12 +62,12 @@ public class WeatherList {
         this.main = main;
     }
 
-    public java.util.List<Weather> getWeather() {
-        return weather;
+    public List<Weather> getResults() {
+        return results;
     }
 
-    public void setWeather(java.util.List<Weather> weather) {
-        this.weather = weather;
+    public void setResults(List<Weather> results) {
+        this.results = results;
     }
 
     public Clouds getClouds() {
@@ -118,10 +104,10 @@ public class WeatherList {
 
     @Override
     public String toString() {
-        return "List{" +
+        return "WeatherList{" +
                 "dt=" + dt +
                 ", main=" + main +
-                ", weather=" + weather +
+                ", results=" + results +
                 ", clouds=" + clouds +
                 ", wind=" + wind +
                 ", sys=" + sys +

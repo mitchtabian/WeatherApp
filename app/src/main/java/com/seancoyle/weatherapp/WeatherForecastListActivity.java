@@ -8,11 +8,17 @@ import android.widget.Toast;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.seancoyle.weatherapp.adapters.EmptyAdapter;
+import com.seancoyle.weatherapp.adapters.WeatherRecyclerAdapter;
 import com.seancoyle.weatherapp.models.Weather;
 import com.seancoyle.weatherapp.requests.ServiceGenerator;
 import com.seancoyle.weatherapp.requests.WeatherApi;
+import com.seancoyle.weatherapp.requests.WeatherApiClient;
 import com.seancoyle.weatherapp.util.Constants;
+import com.seancoyle.weatherapp.util.Testing;
 import com.seancoyle.weatherapp.viewmodels.WeatherViewModel;
 
 import java.util.List;
@@ -24,31 +30,75 @@ import retrofit2.Response;
 import static com.seancoyle.weatherapp.util.Constants.API_KEY;
 import static com.seancoyle.weatherapp.util.Constants.BELFAST_ID;
 
-public class WeatherForecastListActivity extends BaseActivity {
+public class WeatherForecastListActivity extends BaseActivity implements WeatherRecyclerAdapter.OnLogListener {
 
     private Button button;
     private static final String TAG = "WeatherForecast";
 
 
+    /**
+     * Variable which contains the weather View Model.
+     */
     private WeatherViewModel mWeatherListViewModel;
+
+
+    /**
+     * Variable which contains the Recycler-View.
+     */
+    private RecyclerView mRecyclerView;
+
+    /**
+     * Variable which contains the Weather Adapter
+     */
+    private WeatherRecyclerAdapter mWeatherRecyclerAdapter;
+
+    /**
+     * List of type weather which contains the models used to parse the json.
+     */
+    private List<Weather> mWeatherList;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_weather_forecast_list);
+        setContentView(R.layout.recycler_layout_weather);
 
-        // Instantiate the weather View Model.
-        mWeatherListViewModel = ViewModelProviders.of(this).get(WeatherViewModel.class);
+        initialiseVariables();
 
         subscribeObservers();
-        button = findViewById(R.id.test);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                testRetrofitRequest();
-            }
-        });
+
+        testRetrofitRequest();
+
+
+    }
+
+    /**
+     * Method used to initialise declared variables.
+     */
+    private void initialiseVariables() {
+
+       // Instantiate the weather View Model.
+        mWeatherListViewModel = ViewModelProviders.of(this).get(WeatherViewModel.class);
+
+        mRecyclerView = findViewById(R.id.weatherRecyclerView);
+
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        EmptyAdapter emptyAdapter = new EmptyAdapter();
+        mRecyclerView.setAdapter(emptyAdapter);
+
+
+    }
+
+    /**
+     * Method which contains the retrofit response from the API.
+     * @param
+     */
+    private void setAdapterWithResults(List<Weather> weathers) {
+
+        mWeatherRecyclerAdapter = new WeatherRecyclerAdapter(this, weathers);
+        mRecyclerView.setAdapter(mWeatherRecyclerAdapter);
+        mWeatherRecyclerAdapter.setOnLogListener(this);
+        mWeatherRecyclerAdapter.notifyDataSetChanged();
 
     }
 
@@ -61,9 +111,9 @@ public class WeatherForecastListActivity extends BaseActivity {
             public void onChanged(List<Weather> weathers) {
 
                 if (weathers != null) {
-                    for (Weather weather : weathers) {
-                        Log.d(TAG, "onChanged: " + weather.toString());
-                    }
+                    Testing.printWeather(weathers, "weather test");
+                    mWeatherList = weathers;
+                    setAdapterWithResults(mWeatherList);
                 }
             }
         });
@@ -112,4 +162,8 @@ public class WeatherForecastListActivity extends BaseActivity {
         mWeatherListViewModel.searchWeatherApi(locationCode, apiKey);
     }
 
+    @Override
+    public void onLogClick(int position) {
+
+    }
 }

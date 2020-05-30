@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="weather_card_view_height">200dp</dimen>
+    <dimen name="temperature_text_size">30sp</dimen>
+    <dimen name="weather_description_text_size">16sp</dimen>
+    <dimen name="weather_date_text_size">16sp</dimen>
+    <dimen name="recycler_loading_view_height">80dp</dimen>
+
+
+
+</resources>

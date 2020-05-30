@@ -11,6 +11,7 @@ import com.seancoyle.weatherapp.models.Weather;
 
 import java.io.IOException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -104,16 +105,17 @@ public class WeatherApiClient {
 
             // Executes the network request on a background thread
             try {
-                Response<Weather> response = getWeather(locationCode, apiKey).execute();
+                Response response = getWeather(locationCode, apiKey).execute();
                 if (cancelRequest) {
                     return;
                 }
                 if (response.code() == 200) {
 
-
                     //  Weather weather = response.body().getWeather();
                     Log.d(TAG, "onResponse: " + response.body().toString());
 
+                   // List<Weather> list = new ArrayList<>(((Weather)response.body()));
+                    //mWeather.postValue(response);
 
                 } else {
 

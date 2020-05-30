@@ -9,6 +9,7 @@ import com.seancoyle.weatherapp.AppExecutors;
 import com.seancoyle.weatherapp.models.AllWeather;
 import com.seancoyle.weatherapp.models.WeatherList;
 import com.seancoyle.weatherapp.models.WeatherResponse;
+import com.seancoyle.weatherapp.util.Constants;
 
 import java.io.IOException;
 
@@ -17,8 +18,13 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.seancoyle.weatherapp.util.Constants.API_KEY;
+import static com.seancoyle.weatherapp.util.Constants.BELFAST_ID;
+import static com.seancoyle.weatherapp.util.Constants.COUNT;
+import static com.seancoyle.weatherapp.util.Constants.METRIC;
 import static com.seancoyle.weatherapp.util.Constants.NETWORK_TIMEOUT;
 
 public class WeatherApiClient {
@@ -34,7 +40,7 @@ public class WeatherApiClient {
     private static WeatherApiClient instance;
 
 
-    private MutableLiveData<AllWeather> mWeather;
+    private MutableLiveData<WeatherResponse> mWeather;
 
 
     private RetrieveWeatherRunnable mRetrieveWeatherRunnable;
@@ -62,13 +68,51 @@ public class WeatherApiClient {
      *
      * @return
      */
-    public LiveData<AllWeather> getWeather() {
+    public LiveData<WeatherResponse> getWeather() {
         return mWeather;
     }
 
 
     public void searchWeatherAPI(int locationCode, String apiKey, String metric, int count) {
 
+        WeatherApi weatherApi = ServiceGenerator.getWeatherApi();
+
+        Call<WeatherResponse> responseCall = weatherApi.getWeather(
+                locationCode,
+                apiKey,
+                metric,
+                count
+        );
+        responseCall.enqueue(new Callback<WeatherResponse>() {
+            @Override
+            public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
+
+                Log.d(TAG, "onResponse: server response " + response.toString());
+
+                // response code 200 means a successful request
+                // if successful store the response body in the lod
+                if (response.code() == 200) {
+                    // mWeatherResponseList = response.body();
+
+
+                    mWeather.setValue(response.body());
+
+                    Log.d(TAG, "onResponse: " + response.body().toString());
+                    //  Log.d(TAG, "onResponse: " + mWeatherResponse.toString());
+
+
+                } else {
+                    Log.d(TAG, "onResponse: " + response.errorBody().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<WeatherResponse> call, Throwable t) {
+                Log.d(TAG, "onResponse: ERROR: " + t.getMessage());
+
+            }
+        });
+        /*
         if (mRetrieveWeatherRunnable == null) {
             mRetrieveWeatherRunnable = new RetrieveWeatherRunnable(locationCode, apiKey, metric, count);
         }
@@ -83,7 +127,7 @@ public class WeatherApiClient {
                 // let the user know its timed out
                 handler.cancel(true);
             }
-        }, NETWORK_TIMEOUT, TimeUnit.MILLISECONDS);
+        }, NETWORK_TIMEOUT, TimeUnit.MILLISECONDS);*/
     }
 
     private class RetrieveWeatherRunnable implements Runnable {
@@ -106,7 +150,7 @@ public class WeatherApiClient {
         public void run() {
 
             // Executes the network request on a background thread
-           /* try {
+       /*     try {
                 Response response = getWeather(locationCode, apiKey, metric, count).execute();
                 if (cancelRequest) {
                     return;
@@ -118,7 +162,7 @@ public class WeatherApiClient {
 
                     //List<WeatherList> movies = response.body().;
                    // List<OpenWeatherMap> list = new ArrayList<OpenWeatherMap>((Collection<? extends OpenWeatherMap>) response.body());
-                   // mWeather.postValue(list);
+                    mWeather.postValue((WeatherResponse) response.body());
 
                 } else {
 
@@ -142,13 +186,13 @@ public class WeatherApiClient {
          * @param apiKey
          * @return
          */
-       /* private Call<AllWeather> getWeather(int locationCode, String apiKey, String metric, int count) {
+        private Call<WeatherResponse> getWeather(int locationCode, String apiKey, String metric, int count) {
             return ServiceGenerator.getWeatherApi().getWeather(
                     locationCode,
                     apiKey,
                     metric,
                     count);
-        }*/
+        }
 
         /**
          * Method which sets the cancel request boolean to true
@@ -158,4 +202,9 @@ public class WeatherApiClient {
             cancelRequest = true;
         }
     }
+
+    private void testRetrofitRequest() {
+
+    }
+
 }

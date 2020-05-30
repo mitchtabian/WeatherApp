@@ -19,6 +19,7 @@ import com.seancoyle.weatherapp.models.WeatherList;
 import com.seancoyle.weatherapp.requests.ServiceGenerator;
 import com.seancoyle.weatherapp.requests.WeatherApi;
 import com.seancoyle.weatherapp.util.Constants;
+import com.seancoyle.weatherapp.util.Testing;
 import com.seancoyle.weatherapp.viewmodels.WeatherViewModel;
 
 import java.util.ArrayList;
@@ -29,6 +30,11 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.seancoyle.weatherapp.util.Constants.API_KEY;
+import static com.seancoyle.weatherapp.util.Constants.BELFAST_ID;
+import static com.seancoyle.weatherapp.util.Constants.COUNT;
+import static com.seancoyle.weatherapp.util.Constants.METRIC;
 
 public class WeatherForecastListActivity extends BaseActivity implements WeatherRecyclerAdapter.OnLogListener {
 
@@ -56,7 +62,7 @@ public class WeatherForecastListActivity extends BaseActivity implements Weather
      * List of type weather which contains the models used to parse the json.
      */
     private List<WeatherList> mWeatherList;
-    private WeatherResponse mWeatherResponse;
+    private WeatherResponse mWeatherResponse2;
     private Weather mWeather;
    // private List<WeatherResponse> mWeatherResponseList;
     private List<AllWeather> mAllWeather;
@@ -72,7 +78,7 @@ public class WeatherForecastListActivity extends BaseActivity implements Weather
 
         initialiseVariables();
 
-        //subscribeObservers();
+        subscribeObservers();
 
         testRetrofitRequest();
 
@@ -114,27 +120,42 @@ public class WeatherForecastListActivity extends BaseActivity implements Weather
     /**
      * Method used to observe live data- when the weather data updates the observer will refresh.
      */
-   /* private void subscribeObservers() {
+    private void subscribeObservers() {
         mWeatherListViewModel.getWeather().observe(this, new Observer<WeatherResponse>() {
             @Override
-            public void onChanged(WeatherResponse weathers) {
+            public void onChanged(WeatherResponse mWeathersResponse) {
 
-                if (weathers != null) {
-               /*     Testing.printWeather(weathers, "weather test");
-                    mWeatherList = weathers;
-                   setAdapterWithResults(mWeatherList);*/
-    //   }
-    //   }
-    // });
-    // }
+                if (mWeathersResponse != null) {
+
+                    mWeatherResponse2 = mWeathersResponse;
+                    mWeatherList = mWeathersResponse.getResults();
+                    setAdapterWithResults(mWeatherList, mWeatherResponse2);
+
+                }
+            }
+        });
+    }
     private void searchWeatherApi(int locationCode, String apiKey, String metric, int count) {
         mWeatherListViewModel.searchWeatherApi(locationCode, apiKey, metric, count);
     }
 
     private void testRetrofitRequest() {
 
-        // searchWeatherApi(BELFAST_ID, API_KEY, METRIC, COUNT);
+         searchWeatherApi(BELFAST_ID, API_KEY, METRIC, COUNT);
 
+
+
+    }
+
+
+    @Override
+    public void onLogClick(int position) {
+
+        Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
+    }
+
+
+    private void TestRetroFit(){
 
         WeatherApi weatherApi = ServiceGenerator.getWeatherApi();
 
@@ -155,17 +176,19 @@ public class WeatherForecastListActivity extends BaseActivity implements Weather
                 if (response.code() == 200) {
                    // mWeatherResponseList = response.body();
 
-                    //mWeatherResponseList = response.body();
-                    mWeatherResponse = response.body();
+                  //  mWeatherResponseList = response.body().getResults().;
+                   // mWeatherResponse = response.body();
                     mWeatherList = response.body().getResults();
                    // mWeather = response.body().getResults().
+
+                    Toast.makeText(WeatherForecastListActivity.this, "", Toast.LENGTH_SHORT).show();
 
                   // list = new ArrayList<WeatherResponse>(Collections.singleton(((response.body()))));
 
                     Log.d(TAG, "onResponse: " + response.body().toString());
                   //  Log.d(TAG, "onResponse: " + mWeatherResponse.toString());
 
-                   setAdapterWithResults(mWeatherList, mWeatherResponse);
+                  // setAdapterWithResults(mWeatherList, mWeatherResponse);
 
                //     Toast.makeText(WeatherForecastListActivity.this, "Test" + response.body(), Toast.LENGTH_SHORT).show();
 
@@ -182,9 +205,4 @@ public class WeatherForecastListActivity extends BaseActivity implements Weather
         });
     }
 
-
-    @Override
-    public void onLogClick(int position) {
-
-    }
 }

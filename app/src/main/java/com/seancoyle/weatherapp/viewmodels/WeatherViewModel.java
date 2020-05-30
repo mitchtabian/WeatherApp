@@ -25,7 +25,7 @@ public class WeatherViewModel extends ViewModel {
      * Method to return live weather data from the repository
      * @return
      */
-    public LiveData<AllWeather> getWeather() {
+    public LiveData<WeatherResponse> getWeather() {
         return mWeatherRepository.getWeather();
     }
 

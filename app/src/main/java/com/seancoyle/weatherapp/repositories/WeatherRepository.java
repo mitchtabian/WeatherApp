@@ -42,7 +42,7 @@ public class WeatherRepository {
      *
      * @return
      */
-    public LiveData<AllWeather> getWeather() {
+    public LiveData<WeatherResponse> getWeather() {
         return mWeatherApiClient.getWeather();
     }
 

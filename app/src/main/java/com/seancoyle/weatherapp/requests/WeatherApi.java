@@ -14,7 +14,7 @@ public interface WeatherApi {
 
 
     @GET("/data/2.5/forecast")
-    Call<WeatherResponse> getWeather(
+    Call<WeatherResponse>getWeather(
             @Query("id") int locationId,
             @Query("APPID") String apiKey,
             @Query("units") String metric,

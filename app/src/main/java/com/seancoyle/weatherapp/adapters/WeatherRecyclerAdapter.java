@@ -29,8 +29,10 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
      * List of type weather
      */
     private List<WeatherList> mWeather;
-    private List<WeatherResponse> mWeatherResponse;
+   // private List<WeatherResponse> mWeatherResponse;
     private List<AllWeather> mAllWeather;
+
+    private WeatherResponse mWeatherResponse;
 
     /**
      * Listener to detect user clicks on a specific viewholder in the recycler view.
@@ -59,10 +61,10 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
     }
 
 
-    public WeatherRecyclerAdapter(Context context, List<WeatherResponse> results) {
+    public WeatherRecyclerAdapter(Context context, List<WeatherList> mWeatherList, WeatherResponse mWeatherResponse2) {
         this.mContext = context;
-        this.mWeatherResponse = results;
-       // this.mWeatherResponse = weatherResponse;
+        this.mWeather = mWeatherList;
+        this.mWeatherResponse = mWeatherResponse2;
 
     }
 
@@ -77,12 +79,10 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
     @Override
     public void onBindViewHolder(@NonNull WeatherRecyclerAdapter.WeatherViewHolder holder, int position) {
 
-
-
         // moodIconArrayList();
 
         WeatherList currentWeather = mWeather.get(position);
-        WeatherResponse weatherResponse = mWeatherResponse.get(position);
+       // WeatherResponse weatherResponse = new WeatherResponse();
 
         // Gets date from the database for the log
         //long weatherDate = currentWeather.getDt();
@@ -110,8 +110,8 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
         holder.mDate.setText(currentWeather.getDt().toString());
         holder.mTemperature.setText(currentWeather.getMain().getTemp().toString());
         holder.mWeatherImage.setImageResource(R.drawable.sunny_clear);
-        holder.mLocation.setText(weatherResponse.getCity().getName());
-        holder.mDescription.setText((weatherResponse.getCity().getName()));
+        holder.mLocation.setText(mWeatherResponse.getCity().getName());
+      //  holder.mDescription.setText((currentWeather.getResults().);
 
 
     }

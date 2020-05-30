@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.seancoyle.weatherapp.adapters.EmptyAdapter;
 import com.seancoyle.weatherapp.adapters.WeatherRecyclerAdapter;
 import com.seancoyle.weatherapp.models.AllWeather;
+import com.seancoyle.weatherapp.models.Weather;
 import com.seancoyle.weatherapp.models.WeatherResponse;
 import com.seancoyle.weatherapp.models.WeatherList;
 import com.seancoyle.weatherapp.requests.ServiceGenerator;
@@ -21,6 +22,8 @@ import com.seancoyle.weatherapp.util.Constants;
 import com.seancoyle.weatherapp.viewmodels.WeatherViewModel;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -54,9 +57,13 @@ public class WeatherForecastListActivity extends BaseActivity implements Weather
      */
     private List<WeatherList> mWeatherList;
     private WeatherResponse mWeatherResponse;
-    private List<WeatherResponse> mWeatherResponseList;
+    private Weather mWeather;
+   // private List<WeatherResponse> mWeatherResponseList;
     private List<AllWeather> mAllWeather;
 
+    private List<WeatherResponse> mWeatherResponseList=new ArrayList();
+
+    List<WeatherResponse> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,9 +102,9 @@ public class WeatherForecastListActivity extends BaseActivity implements Weather
      * @param
      * @param
      */
-    private void setAdapterWithResults(List<WeatherResponse> mWeatherResponseList) {
+    private void setAdapterWithResults(List<WeatherList> mWeatherList, WeatherResponse mWeatherResponseList) {
 
-        mWeatherRecyclerAdapter = new WeatherRecyclerAdapter(this, mWeatherResponseList);
+        mWeatherRecyclerAdapter = new WeatherRecyclerAdapter(this, mWeatherList, mWeatherResponseList);
         mRecyclerView.setAdapter(mWeatherRecyclerAdapter);
         mWeatherRecyclerAdapter.setOnLogListener(this);
         mWeatherRecyclerAdapter.notifyDataSetChanged();
@@ -148,16 +155,19 @@ public class WeatherForecastListActivity extends BaseActivity implements Weather
                 if (response.code() == 200) {
                    // mWeatherResponseList = response.body();
 
-                  // mWeatherResponseList = response.body();
+                    //mWeatherResponseList = response.body();
                     mWeatherResponse = response.body();
                     mWeatherList = response.body().getResults();
+                   // mWeather = response.body().getResults().
+
+                  // list = new ArrayList<WeatherResponse>(Collections.singleton(((response.body()))));
 
                     Log.d(TAG, "onResponse: " + response.body().toString());
-                    Log.d(TAG, "onResponse: " + mWeatherResponse.toString());
+                  //  Log.d(TAG, "onResponse: " + mWeatherResponse.toString());
 
-                    setAdapterWithResults(mWeatherResponseList);
+                   setAdapterWithResults(mWeatherList, mWeatherResponse);
 
-                    Toast.makeText(WeatherForecastListActivity.this, "Test" + response.body(), Toast.LENGTH_SHORT).show();
+               //     Toast.makeText(WeatherForecastListActivity.this, "Test" + response.body(), Toast.LENGTH_SHORT).show();
 
                 } else {
                     Log.d(TAG, "onResponse: " + response.errorBody().toString());

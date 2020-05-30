@@ -6,6 +6,8 @@ public class Constants {
 
     public static final String BASE_URL ="https://api.openweathermap.org";
 
-    public static final String BELFAST_ID ="2655984";
+    public static final int BELFAST_ID = 2655984;
+
+    public static final int NETWORK_TIMEOUT = 3000;
 
 }

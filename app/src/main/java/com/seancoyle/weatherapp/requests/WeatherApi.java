@@ -11,7 +11,7 @@ public interface WeatherApi {
 
     @GET("/data/2.5/weather")
     Call<Weather> getWeather(
-            @Query("id") String BELFAST_ID,
+            @Query("id") int BELFAST_ID,
             @Query("APPID") String API_KEY
     );
 

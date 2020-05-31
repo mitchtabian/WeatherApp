@@ -79,7 +79,7 @@ public class DateManagement {
      * @param weather
      * @return drawable icon
      */
-   /* public static int getIconOfDay(Weather weather) {
+    public static int getIconOfDay(Weather weather) {
         boolean day = weather.getIcon().contains("d");
         switch (weather.getIcon().substring(0, 2)) {
 
@@ -105,5 +105,5 @@ public class DateManagement {
         return day ? R.drawable.ic_clear_sky : R.drawable.ic_clear_sky_night;
 
         }
-    }*/
-}
+    }
+

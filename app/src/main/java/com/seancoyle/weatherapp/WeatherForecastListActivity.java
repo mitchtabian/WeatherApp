@@ -33,7 +33,7 @@ import static com.seancoyle.weatherapp.util.Constants.BELFAST_ID;
 import static com.seancoyle.weatherapp.util.Constants.COUNT;
 import static com.seancoyle.weatherapp.util.Constants.METRIC;
 
-public class WeatherForecastListActivity extends BaseActivity implements WeatherRecyclerAdapter.OnLogListener {
+public class WeatherForecastListActivity extends BaseActivity implements WeatherRecyclerAdapter.RecyclerOnClickListener {
 
     private Button button;
     private static final String TAG = "WeatherForecast";
@@ -59,7 +59,8 @@ public class WeatherForecastListActivity extends BaseActivity implements Weather
      * List of type weather which contains the models used to parse the json.
      */
     private List<WeatherList> mWeatherList;
-    private List<Weather> mWeather;
+    private Weather mWeather;
+    private List<Weather> baseWeatherList;
     private WeatherResponse mWeatherResponse2;
 
     // private List<WeatherResponse> mWeatherResponseList;
@@ -127,7 +128,7 @@ public class WeatherForecastListActivity extends BaseActivity implements Weather
 
                     for (WeatherList loop: mWeathersResponse.getResults()){
 
-                      //  mWeather.add(loop);
+                        baseWeatherList = loop.getResults();
 
                       //  if(loop.getDtTxt().contains("12:00:00")){
 
@@ -136,10 +137,10 @@ public class WeatherForecastListActivity extends BaseActivity implements Weather
                     }
 
 
-
+                   // List<Weather> list = new ArrayList<Weather>(((Weather)mWeathersResponse.getResults()));
                     mWeatherResponse2 = mWeathersResponse;
                     mWeatherList = mWeathersResponse.getResults();
-                    setAdapterWithResults(mWeatherList, mWeatherResponse2, mWeather);
+                    setAdapterWithResults(mWeatherList, mWeatherResponse2, baseWeatherList);
 
                 }
             }

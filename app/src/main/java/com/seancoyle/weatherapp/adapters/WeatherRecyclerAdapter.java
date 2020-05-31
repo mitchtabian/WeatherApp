@@ -16,8 +16,6 @@ import com.seancoyle.weatherapp.models.WeatherList;
 import com.seancoyle.weatherapp.models.WeatherResponse;
 import com.seancoyle.weatherapp.util.DateManagement;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecyclerAdapter.WeatherViewHolder> {
@@ -28,18 +26,16 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
     private Context mContext;
 
     /**
-     * List of type weather
+     * List of type weather results
      */
     private List<WeatherList> mWeatherList;
-   // private List<WeatherResponse> mWeatherResponse;
     private List<Weather> mWeather;
-
     private WeatherResponse mWeatherResponse;
 
     /**
      * Listener to detect user clicks on a specific viewholder in the recycler view.
      */
-    private OnLogListener mOnLogListener;
+    private RecyclerOnClickListener mOnLogListener;
 
     /**
      * Int which is used to track the position in the recycler view.
@@ -47,22 +43,29 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
     private int position;
 
 
-    private Date date;
-
-    private String formattedDate, baseDate;
-
     /**
      * Custom OnClick Interface
      */
-    public interface OnLogListener {
+    public interface RecyclerOnClickListener {
         void onLogClick(final int position);
     }
 
-    public void setOnLogListener(OnLogListener listener) {
+    /**
+     * Method which contains the custom onclick listener for the recyclerview
+     * @param listener
+     */
+    public void setOnLogListener(RecyclerOnClickListener listener) {
         mOnLogListener = listener;
     }
 
 
+    /**
+     *
+     * @param context
+     * @param mWeatherList
+     * @param mWeatherResponse2
+     * @param mWeather2
+     */
     public WeatherRecyclerAdapter(Context context, List<WeatherList> mWeatherList, WeatherResponse mWeatherResponse2, List<Weather> mWeather2) {
         this.mContext = context;
         this.mWeatherList = mWeatherList;
@@ -82,18 +85,6 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
     @Override
     public void onBindViewHolder(@NonNull WeatherRecyclerAdapter.WeatherViewHolder holder, int position) {
 
-        // moodIconArrayList();
-
-
-        WeatherList currentWeather = mWeatherList.get(position);
-       // WeatherResponse weatherResponse = new WeatherResponse();
-
-
-        // Gets date from the database for the log
-        long weatherDate = currentWeather.getDt()*1000;
-         Date date2=new Date(weatherDate);
-        SimpleDateFormat df2 = new SimpleDateFormat("dd/MM/yy HH:mm");
-        String dateText = df2.format(date2);
 
         // Only displays one forecast for each day at 12:00:00
         String date[] = DateManagement.getDayOfDate(mWeatherList.get(0).getDtTxt(), position + 1).split(" ");
@@ -106,13 +97,14 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
         String tempString = String.valueOf(tempInt);
         holder.mTemperature.setText(tempString+"°C");
 
+        // Set the Icons for the corresponding weather
+        holder.mWeatherImage.setImageResource(DateManagement.getIconOfDay(mWeatherList.get(index).getResults().get(0)));
 
-        holder.mWeatherImage.setImageResource(R.drawable.sunny_clear);
+        // Set the weather description
+        holder.mDescription.setText(""+mWeatherList.get(index).getResults().get(0).getDescription());
+
+        // Set the city name
         holder.mLocation.setText(mWeatherResponse.getCity().getName());
-        //holder.mDescription.setText(m);
-
-
-
 
     }
 
@@ -120,11 +112,16 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
     @Override
     public int getItemCount() {
 
+        // Returns a forecast list for 5 days
         return mWeatherList.size()> 0 ? 5 : 0;
     }
 
 
-
+    /**
+     * Loops through the list of results and gets the entries which match the specified date/time
+     * @param date
+     * @return
+     */
     public int getIndexOfDate(String date) {
         int index = 0;
         for (int i = 0; i < mWeatherList.size(); i++) {
@@ -160,6 +157,7 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
             mWeatherImage = itemView.findViewById(R.id.weatherImage);
 
 
+            // Sets the custom on click listener for the recycler view using the position.
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

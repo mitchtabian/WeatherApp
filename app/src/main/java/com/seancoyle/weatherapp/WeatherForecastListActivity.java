@@ -116,7 +116,7 @@ public class WeatherForecastListActivity extends BaseActivity implements Weather
 
 
     private void subscribeObservers(){
-        mWeatherListViewModel.searchWeatherApi(BELFAST_ID, API_KEY, METRIC, COUNT).(this, new Observer<Resource<WeatherResponse>>() {
+        mWeatherListViewModel.searchWeatherApi(BELFAST_ID, API_KEY, METRIC, COUNT).observe(this, new Observer<Resource<WeatherResponse>>() {
             @Override
             public void onChanged(@Nullable Resource<WeatherResponse> weatherResource) {
                 if(weatherResource != null){

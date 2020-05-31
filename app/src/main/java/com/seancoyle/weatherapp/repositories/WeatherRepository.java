@@ -15,6 +15,7 @@ import com.seancoyle.weatherapp.persistence.WeatherDatabase;
 import com.seancoyle.weatherapp.requests.ServiceGenerator;
 import com.seancoyle.weatherapp.requests.WeatherApiClient;
 import com.seancoyle.weatherapp.responses.ApiResponse;
+import com.seancoyle.weatherapp.util.Constants;
 import com.seancoyle.weatherapp.util.NetworkBoundResource;
 import com.seancoyle.weatherapp.util.Resource;
 
@@ -91,62 +92,56 @@ public class WeatherRepository {
     }*/
 
 
-    public LiveData<Resource<List<WeatherResponse>>> searchWeatherApi(final int locationCode, final String apiKey, final String metric, final int count) {
-        return new NetworkBoundResource<List<WeatherResponse>, WeatherResponse>(AppExecutors.getInstance()) {
 
-
+    public LiveData<Resource<WeatherResponse>> searchRecipesApi(){
+        return new NetworkBoundResource<WeatherResponse, WeatherResponse>(AppExecutors.getInstance()){
             @Override
             protected void saveCallResult(@NonNull WeatherResponse item) {
-                if(item.getResults() != null){ // recipe list will be null if api key is expired
-                    WeatherResponse[] recipes = new WeatherResponse[item.getResults().size()];
 
-                    int index = 0;
-                    for(long rowId: weatherDao.insertWeather((WeatherResponse[])(item.getResults().toArray(recipes)))){
-                        if(rowId == -1){ // conflict detected
-                            Log.d(TAG, "saveCallResult: CONFLICT... This weather is already in cache.");
-                            // if already exists, I don't want to set the ingredients or timestamp b/c they will be erased
-                            weatherDao.updateWeather(
-                                    recipes[index].getCod(),
-                                    recipes[index].getMessage(),
-                                    recipes[index].getCnt(),
-                                    recipes[index].getTimestamp()
+               /* // will be null if API key is expired
+                if(item.getRecipe() != null){
+                    item.getRecipe().setTimestamp((int)(System.currentTimeMillis() / 1000));
+                    recipeDao.insertRecipe(item.getRecipe());
+                }*/
+            }
 
-                            );
-                        }
-                        index++;
-                    }
+            @Override
+            protected boolean shouldFetch(@Nullable WeatherResponse data) {
+                Log.d(TAG, "shouldFetch: recipe: " + data.toString());
+                int currentTime = (int)(System.currentTimeMillis() / 1000);
+                Log.d(TAG, "shouldFetch: current time: " + currentTime);
+                int lastRefresh = data.getTimestamp();
+                Log.d(TAG, "shouldFetch: last refresh: " + lastRefresh);
+                Log.d(TAG, "shouldFetch: it's been " + ((currentTime - lastRefresh) / 60 / 60 / 24) +
+                        " days since this recipe was refreshed. 30 days must elapse before refreshing. ");
+                if((currentTime - data.getTimestamp()) >= Constants.RECIPE_REFRESH_TIME){
+                    Log.d(TAG, "shouldFetch: SHOULD REFRESH RECIPE?! " + true);
+                    return true;
                 }
-
-            }
-
-            @Override
-            public boolean shouldFetch(@Nullable List<WeatherResponse> data) {
-                return true; // always query the network since the queries can be anything
+                Log.d(TAG, "shouldFetch: SHOULD REFRESH RECIPE?! " + false);
+                return false;
             }
 
             @NonNull
             @Override
-            public LiveData<List<WeatherResponse>> loadFromDb() {
-                return weatherDao.searchWeather();
+            protected LiveData<WeatherResponse> loadFromDb() {
+                return weatherDao.();
             }
 
-            /**
-             * Creates a LiveData retrofit call object
-             */
             @NonNull
             @Override
-            public LiveData<ApiResponse<WeatherResponse>> createCall() {
-                return ServiceGenerator.getWeatherApi()
-                        .getWeather(
-                                BELFAST_ID,
-                                API_KEY,
-                                METRIC,
-                                COUNT
-                        );
+            protected LiveData<ApiResponse<WeatherResponse>> createCall() {
+                return ServiceGenerator.getWeatherApi().getWeather(
+                        BELFAST_ID,
+                        API_KEY,
+                        METRIC,
+                        COUNT
+                );
             }
-
         }.getAsLiveData();
     }
+
+
 
 
 }

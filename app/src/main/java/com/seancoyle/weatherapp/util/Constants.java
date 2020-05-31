@@ -14,4 +14,10 @@ public class Constants {
 
     public static final int NETWORK_TIMEOUT = 3000;
 
+    public static final int CONNECTION_TIMEOUT = 10; // 10 seconds
+    public static final int READ_TIMEOUT = 2; // 2 seconds
+    public static final int WRITE_TIMEOUT = 2; // 2 seconds
+
+    public static final int RECIPE_REFRESH_TIME = 10800; // 3 hours
+
 }

@@ -37,8 +37,8 @@ public class WeatherViewModel extends AndroidViewModel {
      * Method to return live weather data from the repository
      * @return
      */
-    public LiveData<WeatherResponse> getWeather() {
-        return mWeatherRepository.searchWeatherApi();
+    public LiveData<Resource<WeatherResponse>> getWeather(int locationCode, String apiKey, String metric, int count) {
+        return mWeatherRepository.searchWeatherApi(locationCode, apiKey, metric, count);
     }
 
 

@@ -2,6 +2,7 @@ package com.seancoyle.weatherapp.models;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.Expose;
@@ -29,6 +30,10 @@ public class Weather {
     @Expose
     @ColumnInfo(name ="icon")
     private String icon;
+
+    @Ignore
+    public Weather() {
+    }
 
     public Weather(Long id, String main, String description, String icon) {
         this.id = id;

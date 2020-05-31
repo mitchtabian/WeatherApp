@@ -2,6 +2,7 @@ package com.seancoyle.weatherapp.models;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.Expose;
@@ -23,7 +24,7 @@ public class Coord {
     @ColumnInfo(name ="lat")
     private double lat;
 
-
+    @Ignore
     public Coord() {
     }
 

@@ -1,6 +1,7 @@
 package com.seancoyle.weatherapp.models;
 
 import androidx.room.ColumnInfo;
+import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -25,7 +26,8 @@ public class WeatherList {
 
     @SerializedName("main")
     @Expose
-    @Ignore
+    @ColumnInfo(name ="main")
+    @Embedded
     private Main main;
 
     @SerializedName("weather")
@@ -37,19 +39,19 @@ public class WeatherList {
     @SerializedName("clouds")
     @Expose
     @ColumnInfo(name ="clouds")
-    @Ignore
+    @Embedded
     private Clouds clouds;
 
     @SerializedName("wind")
     @Expose
     @ColumnInfo(name ="wind")
-    @Ignore
+    @Embedded
     private Wind wind;
 
     @SerializedName("sys")
     @Expose
     @ColumnInfo(name ="sys")
-    @Ignore
+    @Embedded
     private Sys sys;
 
     @SerializedName("dt_txt")
@@ -61,6 +63,7 @@ public class WeatherList {
      * No args constructor for use in serialization
      *
      */
+    @Ignore
     public WeatherList() {
     }
 

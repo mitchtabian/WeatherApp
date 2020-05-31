@@ -1,5 +1,7 @@
 package com.seancoyle.weatherapp.models;
 
+import androidx.room.Ignore;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -16,6 +18,7 @@ public class Wind {
      * No args constructor for use in serialization
      *
      */
+    @Ignore
     public Wind() {
     }
 

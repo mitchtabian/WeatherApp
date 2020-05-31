@@ -2,7 +2,6 @@ package com.seancoyle.weatherapp;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.lifecycle.Observer;
@@ -20,7 +19,6 @@ import com.seancoyle.weatherapp.requests.WeatherApi;
 import com.seancoyle.weatherapp.util.Constants;
 import com.seancoyle.weatherapp.viewmodels.WeatherViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -34,7 +32,7 @@ import static com.seancoyle.weatherapp.util.Constants.METRIC;
 
 public class WeatherForecastListActivity extends BaseActivity implements WeatherRecyclerAdapter.RecyclerOnClickListener {
 
-    private Button button;
+
     private static final String TAG = "WeatherForecast";
 
 
@@ -84,17 +82,18 @@ public class WeatherForecastListActivity extends BaseActivity implements Weather
         // Instantiate the weather View Model.
         mWeatherListViewModel = ViewModelProviders.of(this).get(WeatherViewModel.class);
 
+        // Instantiate the Recyclerview.
         mRecyclerView = findViewById(R.id.weatherRecyclerView);
 
+        // Assign an empty adapter to the RecyclerView to prevent Nulls if error loading data.
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         EmptyAdapter emptyAdapter = new EmptyAdapter();
         mRecyclerView.setAdapter(emptyAdapter);
 
-
     }
 
     /**
-     * Method which contains the retrofit response from the API.
+     * Method which assigns the retrofit response from the API to the RecyclerView.
      *
      * @param
      * @param
@@ -119,17 +118,9 @@ public class WeatherForecastListActivity extends BaseActivity implements Weather
                 if (mWeathersResponse != null) {
 
                     for (WeatherList loop: mWeathersResponse.getResults()){
-
                         baseWeatherList = loop.getResults();
-
-                      //  if(loop.getDtTxt().contains("12:00:00")){
-
-                           // mWeatherList.add(loop);
-                       // }
                     }
 
-
-                   // List<Weather> list = new ArrayList<Weather>(((Weather)mWeathersResponse.getResults()));
                     mWeatherResponse2 = mWeathersResponse;
                     mWeatherList = mWeathersResponse.getResults();
                     setAdapterWithResults(mWeatherList, mWeatherResponse2, baseWeatherList);

@@ -1,6 +1,7 @@
 package com.seancoyle.weatherapp.models;
 
 import androidx.room.ColumnInfo;
+import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -17,7 +18,6 @@ public class City {
     @PrimaryKey
     private Long id;
 
-
     @SerializedName("name")
     @Expose
     @ColumnInfo(name ="name")
@@ -25,7 +25,7 @@ public class City {
 
     @SerializedName("coord")
     @Expose
-    @Ignore
+    @Embedded
     private Coord coord;
 
     @SerializedName("country")

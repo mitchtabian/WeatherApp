@@ -94,7 +94,6 @@ public class WeatherApiClient {
                 if (response.code() == 200) {
                     // mWeatherResponseList = response.body();
 
-
                     mWeather.setValue(response.body());
 
                     Log.d(TAG, "onResponse: " + response.body().toString());

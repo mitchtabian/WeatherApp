@@ -19,12 +19,9 @@ import com.seancoyle.weatherapp.models.WeatherList;
 import com.seancoyle.weatherapp.requests.ServiceGenerator;
 import com.seancoyle.weatherapp.requests.WeatherApi;
 import com.seancoyle.weatherapp.util.Constants;
-import com.seancoyle.weatherapp.util.Testing;
 import com.seancoyle.weatherapp.viewmodels.WeatherViewModel;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -62,12 +59,13 @@ public class WeatherForecastListActivity extends BaseActivity implements Weather
      * List of type weather which contains the models used to parse the json.
      */
     private List<WeatherList> mWeatherList;
+    private List<Weather> mWeather;
     private WeatherResponse mWeatherResponse2;
-    private Weather mWeather;
-   // private List<WeatherResponse> mWeatherResponseList;
+
+    // private List<WeatherResponse> mWeatherResponseList;
     private List<AllWeather> mAllWeather;
 
-    private List<WeatherResponse> mWeatherResponseList=new ArrayList();
+    private List<WeatherResponse> mWeatherResponseList = new ArrayList();
 
     List<WeatherResponse> list;
 
@@ -80,7 +78,7 @@ public class WeatherForecastListActivity extends BaseActivity implements Weather
 
         subscribeObservers();
 
-        testRetrofitRequest();
+        forecastRequestParameters();
 
 
     }
@@ -108,9 +106,9 @@ public class WeatherForecastListActivity extends BaseActivity implements Weather
      * @param
      * @param
      */
-    private void setAdapterWithResults(List<WeatherList> mWeatherList, WeatherResponse mWeatherResponseList) {
+    private void setAdapterWithResults(List<WeatherList> mWeatherList, WeatherResponse mWeatherResponseList, List<Weather> mWeather) {
 
-        mWeatherRecyclerAdapter = new WeatherRecyclerAdapter(this, mWeatherList, mWeatherResponseList);
+        mWeatherRecyclerAdapter = new WeatherRecyclerAdapter(this, mWeatherList, mWeatherResponseList, mWeather);
         mRecyclerView.setAdapter(mWeatherRecyclerAdapter);
         mWeatherRecyclerAdapter.setOnLogListener(this);
         mWeatherRecyclerAdapter.notifyDataSetChanged();
@@ -127,31 +125,59 @@ public class WeatherForecastListActivity extends BaseActivity implements Weather
 
                 if (mWeathersResponse != null) {
 
+                    for (WeatherList loop: mWeathersResponse.getResults()){
+
+                      //  mWeather.add(loop);
+
+                      //  if(loop.getDtTxt().contains("12:00:00")){
+
+                           // mWeatherList.add(loop);
+                       // }
+                    }
+
+
+
                     mWeatherResponse2 = mWeathersResponse;
                     mWeatherList = mWeathersResponse.getResults();
-                    setAdapterWithResults(mWeatherList, mWeatherResponse2);
+                    setAdapterWithResults(mWeatherList, mWeatherResponse2, mWeather);
 
                 }
             }
         });
     }
+
+
+    /**
+     * Method used to obtain the parameters used to query the API
+     */
+    private void forecastRequestParameters() {
+
+         searchWeatherApi(BELFAST_ID, API_KEY, METRIC, COUNT);
+
+    }
+
+    /**
+     * Method used to send the request to the View Model.
+     * @param locationCode
+     * @param apiKey
+     * @param metric
+     * @param count
+     */
     private void searchWeatherApi(int locationCode, String apiKey, String metric, int count) {
         mWeatherListViewModel.searchWeatherApi(locationCode, apiKey, metric, count);
     }
 
-    private void testRetrofitRequest() {
-
-         searchWeatherApi(BELFAST_ID, API_KEY, METRIC, COUNT);
-
-
-
-    }
-
-
+    /**
+     * On Click listener for the recyclerView
+     * @param position
+     */
     @Override
     public void onLogClick(int position) {
 
-        Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
+        WeatherList currentWeather = mWeatherList.get(position);
+
+        // Displays a toast message when clicked with the maximum temperature
+        Toast.makeText(this, ""+currentWeather.getMain().getTempMax(), Toast.LENGTH_LONG).show();
     }
 
 

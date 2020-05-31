@@ -10,7 +10,7 @@ public class Constants {
 
     public static final String METRIC = "metric";
 
-    public static final int COUNT = 5;
+    public static final int COUNT = 40;
 
     public static final int NETWORK_TIMEOUT = 3000;
 

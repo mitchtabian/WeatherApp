@@ -11,10 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.seancoyle.weatherapp.R;
-import com.seancoyle.weatherapp.models.AllWeather;
+import com.seancoyle.weatherapp.models.Weather;
 import com.seancoyle.weatherapp.models.WeatherList;
 import com.seancoyle.weatherapp.models.WeatherResponse;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -28,9 +29,9 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
     /**
      * List of type weather
      */
-    private List<WeatherList> mWeather;
+    private List<WeatherList> mWeatherList;
    // private List<WeatherResponse> mWeatherResponse;
-    private List<AllWeather> mAllWeather;
+    private List<Weather> mWeather;
 
     private WeatherResponse mWeatherResponse;
 
@@ -45,7 +46,7 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
     private int position;
 
 
-    private Date inputDate;
+    private Date date;
 
     private String formattedDate, baseDate;
 
@@ -61,10 +62,11 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
     }
 
 
-    public WeatherRecyclerAdapter(Context context, List<WeatherList> mWeatherList, WeatherResponse mWeatherResponse2) {
+    public WeatherRecyclerAdapter(Context context, List<WeatherList> mWeatherList, WeatherResponse mWeatherResponse2, List<Weather> mWeather2) {
         this.mContext = context;
-        this.mWeather = mWeatherList;
+        this.mWeatherList = mWeatherList;
         this.mWeatherResponse = mWeatherResponse2;
+        this.mWeather = mWeather2;
 
     }
 
@@ -81,11 +83,16 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
 
         // moodIconArrayList();
 
-        WeatherList currentWeather = mWeather.get(position);
+        WeatherList currentWeather = mWeatherList.get(position);
        // WeatherResponse weatherResponse = new WeatherResponse();
 
         // Gets date from the database for the log
-        //long weatherDate = currentWeather.getDt();
+        long weatherDate = currentWeather.getDt()*1000;
+         Date date=new Date(weatherDate);
+        SimpleDateFormat df2 = new SimpleDateFormat("dd/MM/yy HH:mm");
+        String dateText = df2.format(date);
+
+
 
         // Converts the date into the desired format to be displayed on screen to the user.
         // DateFormat toFormat = new SimpleDateFormat("E, d MMMM, yyyy HH:mm");
@@ -107,11 +114,11 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
 
 
         // Sets the date string to the View holder
-        holder.mDate.setText(currentWeather.getDt().toString());
+        holder.mDate.setText(dateText);
         holder.mTemperature.setText(currentWeather.getMain().getTemp().toString());
         holder.mWeatherImage.setImageResource(R.drawable.sunny_clear);
         holder.mLocation.setText(mWeatherResponse.getCity().getName());
-      //  holder.mDescription.setText((currentWeather.getResults().);
+       //holder.mDescription.setText(m);
 
 
     }
@@ -119,7 +126,8 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
 
     @Override
     public int getItemCount() {
-        return mWeather.size();
+
+        return mWeatherList.size();
     }
 
     public class WeatherViewHolder extends RecyclerView.ViewHolder {

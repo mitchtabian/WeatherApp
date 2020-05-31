@@ -1,12 +1,21 @@
 package com.seancoyle.weatherapp.models;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+@Entity(tableName = "clouds")
 public class Clouds {
+
+    @PrimaryKey(autoGenerate = true)
+    long cloudsId;
 
     @SerializedName("all")
     @Expose
+    @ColumnInfo(name ="all")
     private int all;
 
     public Clouds() {

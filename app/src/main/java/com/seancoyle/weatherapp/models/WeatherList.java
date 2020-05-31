@@ -1,32 +1,60 @@
 package com.seancoyle.weatherapp.models;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.seancoyle.weatherapp.persistence.ListConverter;
 
 import java.util.List;
 
+@Entity(tableName = "weatherList")
 public class WeatherList {
+
+    @PrimaryKey(autoGenerate = true)
+    long weatherListId;
 
     @SerializedName("dt")
     @Expose
+    @ColumnInfo(name ="date")
     private Long dt;
+
     @SerializedName("main")
     @Expose
+    @Ignore
     private Main main;
+
     @SerializedName("weather")
     @Expose
+    @ColumnInfo(name ="weather")
+    @TypeConverters(ListConverter.class)
     private List<Weather> results;
+
     @SerializedName("clouds")
     @Expose
+    @ColumnInfo(name ="clouds")
+    @Ignore
     private Clouds clouds;
+
     @SerializedName("wind")
     @Expose
+    @ColumnInfo(name ="wind")
+    @Ignore
     private Wind wind;
+
     @SerializedName("sys")
     @Expose
+    @ColumnInfo(name ="sys")
+    @Ignore
     private Sys sys;
+
     @SerializedName("dt_txt")
     @Expose
+    @ColumnInfo(name ="dtTxt")
     private String dtTxt;
 
     /**

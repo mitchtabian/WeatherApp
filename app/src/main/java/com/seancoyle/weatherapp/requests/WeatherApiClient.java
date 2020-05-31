@@ -5,27 +5,11 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.seancoyle.weatherapp.AppExecutors;
-import com.seancoyle.weatherapp.models.AllWeather;
-import com.seancoyle.weatherapp.models.WeatherList;
 import com.seancoyle.weatherapp.models.WeatherResponse;
-import com.seancoyle.weatherapp.util.Constants;
-
-import java.io.IOException;
-
-import java.util.List;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.seancoyle.weatherapp.util.Constants.API_KEY;
-import static com.seancoyle.weatherapp.util.Constants.BELFAST_ID;
-import static com.seancoyle.weatherapp.util.Constants.COUNT;
-import static com.seancoyle.weatherapp.util.Constants.METRIC;
-import static com.seancoyle.weatherapp.util.Constants.NETWORK_TIMEOUT;
 
 public class WeatherApiClient {
 

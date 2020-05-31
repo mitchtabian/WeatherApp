@@ -1,31 +1,51 @@
 package com.seancoyle.weatherapp.models;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+@Entity(tableName = "city")
 public class City {
 
 
     @SerializedName("id")
     @Expose
+    @PrimaryKey
     private Long id;
+
+
     @SerializedName("name")
     @Expose
+    @ColumnInfo(name ="name")
     private String name;
+
     @SerializedName("coord")
     @Expose
+    @Ignore
     private Coord coord;
+
     @SerializedName("country")
     @Expose
+    @ColumnInfo(name ="country")
     private String country;
+
     @SerializedName("timezone")
     @Expose
+    @ColumnInfo(name ="timezone")
     private Long timezone;
+
     @SerializedName("sunrise")
     @Expose
+    @ColumnInfo(name ="sunrise")
     private Long sunrise;
+
     @SerializedName("sunset")
     @Expose
+    @ColumnInfo(name ="sunset")
     private Long sunset;
 
     /**

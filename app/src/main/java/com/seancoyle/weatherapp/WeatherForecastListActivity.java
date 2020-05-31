@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.seancoyle.weatherapp.adapters.EmptyAdapter;
 import com.seancoyle.weatherapp.adapters.WeatherRecyclerAdapter;
-import com.seancoyle.weatherapp.models.AllWeather;
 import com.seancoyle.weatherapp.models.Weather;
 import com.seancoyle.weatherapp.models.WeatherResponse;
 import com.seancoyle.weatherapp.models.WeatherList;
@@ -59,16 +58,9 @@ public class WeatherForecastListActivity extends BaseActivity implements Weather
      * List of type weather which contains the models used to parse the json.
      */
     private List<WeatherList> mWeatherList;
-    private Weather mWeather;
     private List<Weather> baseWeatherList;
     private WeatherResponse mWeatherResponse2;
 
-    // private List<WeatherResponse> mWeatherResponseList;
-    private List<AllWeather> mAllWeather;
-
-    private List<WeatherResponse> mWeatherResponseList = new ArrayList();
-
-    List<WeatherResponse> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

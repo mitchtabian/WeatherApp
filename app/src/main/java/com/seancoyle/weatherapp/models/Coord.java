@@ -1,16 +1,26 @@
 package com.seancoyle.weatherapp.models;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+@Entity(tableName = "coord")
 public class Coord {
+
+    @PrimaryKey(autoGenerate = true)
+    long coordId;
 
     @SerializedName("lon")
     @Expose
+    @ColumnInfo(name ="lon")
     private double lon;
 
     @SerializedName("lat")
     @Expose
+    @ColumnInfo(name ="lat")
     private double lat;
 
 

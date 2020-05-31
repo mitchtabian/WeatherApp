@@ -3,7 +3,6 @@ package com.seancoyle.weatherapp.viewmodels;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.seancoyle.weatherapp.models.AllWeather;
 import com.seancoyle.weatherapp.models.WeatherResponse;
 import com.seancoyle.weatherapp.repositories.WeatherRepository;
 

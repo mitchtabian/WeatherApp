@@ -8,10 +8,10 @@ import androidx.room.RoomDatabase;
 
 import com.seancoyle.weatherapp.models.WeatherResponse;
 
+@Database(entities = {WeatherResponse.class}, version = 1 )
+public abstract class WeatherDatabase extends RoomDatabase {
 
-public abstract class WeatherDatabase  {
 
-    /*
     public static final String DATABASE_NAME = "weather_db";
 
     private static WeatherDatabase instance;
@@ -25,5 +25,5 @@ public abstract class WeatherDatabase  {
             ).build();
         }
         return instance;
-    }*/
+    }
 }

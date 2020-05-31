@@ -7,7 +7,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 
-public class Converters {
+public class ArrayConverter {
 
     @TypeConverter
     public static String[] fromString(String value) {

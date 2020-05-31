@@ -1,32 +1,50 @@
 package com.seancoyle.weatherapp.models;
 
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverter;
+import androidx.room.TypeConverters;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.seancoyle.weatherapp.persistence.ListConverter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Entity(tableName = "weatherResponse")
 public class WeatherResponse {
+
+    @PrimaryKey (autoGenerate = true)
+    long weatherResponseId;
 
     @SerializedName("cod")
     @Expose
+    @ColumnInfo(name ="cod")
     private String cod;
+
     @SerializedName("message")
     @Expose
+    @ColumnInfo(name ="message")
     private Long message;
+
     @SerializedName("cnt")
     @Expose
+    @ColumnInfo(name ="cnt")
     private Long cnt;
+
     @SerializedName("list")
     @Expose
+    @ColumnInfo(name ="list")
+    @TypeConverters(ListConverter.class)
     private List<WeatherList> results;
+
     @SerializedName("city")
     @Expose
+    @Ignore
     private City city;
 
     /**

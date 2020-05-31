@@ -1,24 +1,37 @@
 package com.seancoyle.weatherapp.viewmodels;
 
+import android.app.Application;
+import android.content.Context;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.seancoyle.weatherapp.models.WeatherResponse;
 import com.seancoyle.weatherapp.repositories.WeatherRepository;
+import com.seancoyle.weatherapp.util.Resource;
 
-public class WeatherViewModel extends ViewModel {
+import java.util.List;
+
+public class WeatherViewModel extends AndroidViewModel {
+
 
     /**
      * Instantiate the weather repository.
      */
     private WeatherRepository mWeatherRepository;
 
+
+    public WeatherViewModel(Application application) {
+        super(application);
+        mWeatherRepository = WeatherRepository.getInstance(application);
+    }
+
     /**
      * Constructor containing the weather repository instance.
      */
-    public WeatherViewModel() {
-        mWeatherRepository = WeatherRepository.getInstance();
-    }
+
 
     /**
      * Method to return live weather data from the repository
@@ -28,7 +41,9 @@ public class WeatherViewModel extends ViewModel {
         return mWeatherRepository.getWeather();
     }
 
+   /* public LiveData<Resource<List<WeatherResponse>>> searchWeatherApi(final int locationCode, final String apiKey, final String metric, final int count) {
 
+    }
 
 
     public void searchWeatherApi(int locationCode, String apiKey, String metric, int count){

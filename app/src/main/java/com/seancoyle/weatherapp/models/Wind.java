@@ -1,5 +1,6 @@
 package com.seancoyle.weatherapp.models;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Ignore;
 
 import com.google.gson.annotations.Expose;
@@ -9,9 +10,12 @@ public class Wind {
 
     @SerializedName("speed")
     @Expose
+    @ColumnInfo(name ="speed")
     private Double speed;
+
     @SerializedName("deg")
     @Expose
+    @ColumnInfo(name ="deg")
     private Long deg;
 
     /**

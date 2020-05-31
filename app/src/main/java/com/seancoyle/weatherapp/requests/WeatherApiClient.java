@@ -12,29 +12,29 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class WeatherApiClient {
-
+/*
     /**
      * Tag for identifying the log
      */
-    private static final String TAG = "WeatherApiClient";
+ /*   private static final String TAG = "WeatherApiClient";
 
     /**
      * Instantiate an instance of the WeatherApiClient
      */
-    private static WeatherApiClient instance;
+  /*  private static WeatherApiClient instance;
 
 
     private MutableLiveData<WeatherResponse> mWeather;
 
 
-    private RetrieveWeatherRunnable mRetrieveWeatherRunnable;
+  /*  private RetrieveWeatherRunnable mRetrieveWeatherRunnable;
 
     /**
      * Use a Singleton of the WeatherApiClient
      *
      * @return
      */
-    public static WeatherApiClient getInstance() {
+ /*   public static WeatherApiClient getInstance() {
         if (instance == null) {
             instance = new WeatherApiClient();
         }
@@ -52,7 +52,7 @@ public class WeatherApiClient {
      *
      * @return
      */
-    public LiveData<WeatherResponse> getWeather() {
+  /*  public LiveData<WeatherResponse> getWeather() {
         return mWeather;
     }
 
@@ -111,9 +111,9 @@ public class WeatherApiClient {
                 handler.cancel(true);
             }
         }, NETWORK_TIMEOUT, TimeUnit.MILLISECONDS);*/
-    }
+  /*  }
 
-    private class RetrieveWeatherRunnable implements Runnable {
+    /*private class RetrieveWeatherRunnable implements Runnable {
 
         private int locationCode;
         private String apiKey;
@@ -160,7 +160,7 @@ public class WeatherApiClient {
                 mWeather.postValue(null);
             }*/
 
-        }
+    /*    }
 
         /**
          * Method which will make the request to the API
@@ -169,7 +169,7 @@ public class WeatherApiClient {
          * @param apiKey
          * @return
          */
-        private Call<WeatherResponse> getWeather(int locationCode, String apiKey, String metric, int count) {
+      /*  private Call<WeatherResponse> getWeather(int locationCode, String apiKey, String metric, int count) {
             return ServiceGenerator.getWeatherApi().getWeather(
                     locationCode,
                     apiKey,
@@ -180,7 +180,7 @@ public class WeatherApiClient {
         /**
          * Method which sets the cancel request boolean to true
          */
-        private void CancelRequest() {
+      /*  private void CancelRequest() {
             Log.d(TAG, "cancelRequest: Cancelling the request");
             cancelRequest = true;
         }
@@ -188,6 +188,6 @@ public class WeatherApiClient {
 
     private void testRetrofitRequest() {
 
-    }
+    }*/
 
 }

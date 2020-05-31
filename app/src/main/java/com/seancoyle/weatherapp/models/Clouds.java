@@ -12,7 +12,7 @@ import com.google.gson.annotations.SerializedName;
 public class Clouds {
 
     @PrimaryKey(autoGenerate = true)
-    long cloudsId;
+    private long cloudsId;
 
     @SerializedName("all")
     @Expose
@@ -21,6 +21,14 @@ public class Clouds {
 
     @Ignore
     public Clouds() {
+    }
+
+    public long getCloudsId() {
+        return cloudsId;
+    }
+
+    public void setCloudsId(long cloudsId) {
+        this.cloudsId = cloudsId;
     }
 
     public Clouds(int all) {

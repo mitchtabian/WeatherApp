@@ -12,7 +12,7 @@ import com.google.gson.annotations.SerializedName;
 public class Main {
 
     @PrimaryKey(autoGenerate = true)
-    long mainId;
+    private long mainId;
 
     @SerializedName("temp")
     @Expose
@@ -92,6 +92,14 @@ public class Main {
         this.tempKf = tempKf;
     }
 
+    public long getMainId() {
+        return mainId;
+    }
+
+    public void setMainId(long mainId) {
+        this.mainId = mainId;
+    }
+
     public Double getTemp() {
         return temp;
     }
@@ -163,6 +171,8 @@ public class Main {
     public void setTempKf(Double tempKf) {
         this.tempKf = tempKf;
     }
+
+
 
     @Override
     public String toString() {

@@ -26,4 +26,6 @@ public abstract class WeatherDatabase extends RoomDatabase {
         }
         return instance;
     }
+
+    public abstract WeatherDao getWeatherDao();
 }

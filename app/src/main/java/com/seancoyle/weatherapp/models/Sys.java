@@ -12,7 +12,7 @@ import com.google.gson.annotations.SerializedName;
 public class Sys {
 
     @PrimaryKey(autoGenerate = true)
-    long sysId;
+    private long sysId;
 
     @SerializedName("pod")
     @Expose
@@ -34,6 +34,15 @@ public class Sys {
     public Sys(String pod) {
         super();
         this.pod = pod;
+    }
+
+
+    public long getSysId() {
+        return sysId;
+    }
+
+    public void setSysId(long sysId) {
+        this.sysId = sysId;
     }
 
     public String getPod() {

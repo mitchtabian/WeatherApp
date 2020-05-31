@@ -17,7 +17,7 @@ import java.util.List;
 public class WeatherList {
 
     @PrimaryKey(autoGenerate = true)
-    long weatherListId;
+    private long weatherListId;
 
     @SerializedName("dt")
     @Expose
@@ -75,6 +75,14 @@ public class WeatherList {
         this.wind = wind;
         this.sys = sys;
         this.dtTxt = dtTxt;
+    }
+
+    public long getWeatherListId() {
+        return weatherListId;
+    }
+
+    public void setWeatherListId(long weatherListId) {
+        this.weatherListId = weatherListId;
     }
 
     public Long getDt() {

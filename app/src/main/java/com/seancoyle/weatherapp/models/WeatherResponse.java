@@ -18,7 +18,7 @@ import java.util.List;
 public class WeatherResponse {
 
     @PrimaryKey (autoGenerate = true)
-    long weatherResponseId;
+    private long weatherResponseId;
 
     @SerializedName("cod")
     @Expose
@@ -67,6 +67,8 @@ public class WeatherResponse {
         this.city = city;
         this.timestamp = timestamp;
     }
+
+
 
     public String getCod() {
         return cod;

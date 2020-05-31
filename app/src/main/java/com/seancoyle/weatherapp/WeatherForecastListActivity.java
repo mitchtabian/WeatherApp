@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,6 +18,7 @@ import com.seancoyle.weatherapp.models.WeatherList;
 import com.seancoyle.weatherapp.requests.ServiceGenerator;
 import com.seancoyle.weatherapp.requests.WeatherApi;
 import com.seancoyle.weatherapp.util.Constants;
+import com.seancoyle.weatherapp.util.Resource;
 import com.seancoyle.weatherapp.viewmodels.WeatherViewModel;
 
 import java.util.List;
@@ -29,6 +31,9 @@ import static com.seancoyle.weatherapp.util.Constants.API_KEY;
 import static com.seancoyle.weatherapp.util.Constants.BELFAST_ID;
 import static com.seancoyle.weatherapp.util.Constants.COUNT;
 import static com.seancoyle.weatherapp.util.Constants.METRIC;
+import static com.seancoyle.weatherapp.util.Resource.Status.ERROR;
+import static com.seancoyle.weatherapp.util.Resource.Status.LOADING;
+import static com.seancoyle.weatherapp.util.Resource.Status.SUCCESS;
 
 public class WeatherForecastListActivity extends BaseActivity implements WeatherRecyclerAdapter.RecyclerOnClickListener {
 
@@ -107,10 +112,69 @@ public class WeatherForecastListActivity extends BaseActivity implements Weather
 
     }
 
+
+
+
+    private void subscribeObservers(){
+        mWeatherListViewModel.searchWeatherApi(BELFAST_ID, API_KEY, METRIC, COUNT).(this, new Observer<Resource<WeatherResponse>>() {
+            @Override
+            public void onChanged(@Nullable Resource<WeatherResponse> weatherResource) {
+                if(weatherResource != null){
+                    if(weatherResource.data != null){
+                        switch (weatherResource.status){
+
+                            case LOADING:{
+                                showProgressBar(true);
+                                break;
+                            }
+
+                            case ERROR:{
+                                Log.e(TAG, "onChanged: status: ERROR, Recipe: " + weatherResource.data.getResults() );
+                                Log.e(TAG, "onChanged: ERROR message: " + weatherResource.message );
+
+                                break;
+                            }
+
+                            case SUCCESS:{
+                                Log.d(TAG, "onChanged: cache has been refreshed.");
+                                Log.d(TAG, "onChanged: status: SUCCESS, Recipe: " + weatherResource.data.getResults());
+                                showProgressBar(false);
+
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * Method used to observe live data- when the weather data updates the observer will refresh.
      */
-    private void subscribeObservers() {
+   /* private void subscribeObservers() {
         mWeatherListViewModel.getWeather().observe(this, new Observer<WeatherResponse>() {
             @Override
             public void onChanged(WeatherResponse mWeathersResponse) {
@@ -128,7 +192,7 @@ public class WeatherForecastListActivity extends BaseActivity implements Weather
                 }
             }
         });
-    }
+    }*/
 
 
     /**
@@ -171,7 +235,7 @@ public class WeatherForecastListActivity extends BaseActivity implements Weather
 
 
     private void TestRetroFit(){
-
+/*
         WeatherApi weatherApi = ServiceGenerator.getWeatherApi();
 
         Call<WeatherResponse> responseCall = weatherApi.getWeather(
@@ -217,7 +281,7 @@ public class WeatherForecastListActivity extends BaseActivity implements Weather
                 Log.d(TAG, "onResponse: ERROR: " + t.getMessage());
 
             }
-        });
+        });*/
     }
 
 }

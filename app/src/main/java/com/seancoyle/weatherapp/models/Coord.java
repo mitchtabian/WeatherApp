@@ -12,7 +12,7 @@ import com.google.gson.annotations.SerializedName;
 public class Coord {
 
     @PrimaryKey(autoGenerate = true)
-    long coordId;
+    private long coordId;
 
     @SerializedName("lon")
     @Expose
@@ -31,6 +31,14 @@ public class Coord {
     public Coord(double lon, double lat) {
         this.lon = lon;
         this.lat = lat;
+    }
+
+    public long getCoordId() {
+        return coordId;
+    }
+
+    public void setCoordId(long coordId) {
+        this.coordId = coordId;
     }
 
     public double getLon() {

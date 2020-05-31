@@ -14,6 +14,7 @@ import com.seancoyle.weatherapp.R;
 import com.seancoyle.weatherapp.models.Weather;
 import com.seancoyle.weatherapp.models.WeatherList;
 import com.seancoyle.weatherapp.models.WeatherResponse;
+import com.seancoyle.weatherapp.util.DateManagement;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -83,42 +84,34 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
 
         // moodIconArrayList();
 
+
         WeatherList currentWeather = mWeatherList.get(position);
        // WeatherResponse weatherResponse = new WeatherResponse();
 
+
         // Gets date from the database for the log
         long weatherDate = currentWeather.getDt()*1000;
-         Date date=new Date(weatherDate);
+         Date date2=new Date(weatherDate);
         SimpleDateFormat df2 = new SimpleDateFormat("dd/MM/yy HH:mm");
-        String dateText = df2.format(date);
+        String dateText = df2.format(date2);
+
+        // Only displays one forecast for each day at 12:00:00
+        String date[] = DateManagement.getDayOfDate(mWeatherList.get(0).getDtTxt(), position + 1).split(" ");
+        holder.mDate.setText(date[1]);
+        int index = getIndexOfDate(date[0] + " 12:00:00");
+
+        // Get the temperature as a double and remove the decimal places
+        double tempDouble = mWeatherList.get(index).getMain().getTemp();
+        int tempInt = (int) Math.round(tempDouble);
+        String tempString = String.valueOf(tempInt);
+        holder.mTemperature.setText(tempString+"°C");
 
 
-
-        // Converts the date into the desired format to be displayed on screen to the user.
-        // DateFormat toFormat = new SimpleDateFormat("E, d MMMM, yyyy HH:mm");
-        //String workoutDateString = toFormat.format(weatherDate);
-
-
-        // BELOW CODE IS FOR HANDLING DATES STORES IN THE DB AS A STRING
-        /*
-        DateFormat fromFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-        fromFormat.setLenient(false);
-        DateFormat toFormat = new SimpleDateFormat("E, d MMMM, yyyy HH:mm");
-        toFormat.setLenient(false);
-        try {
-             inputDate = fromFormat.parse(baseDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        formattedDate = toFormat.format(inputDate);*/
-
-
-        // Sets the date string to the View holder
-        holder.mDate.setText(dateText);
-        holder.mTemperature.setText(currentWeather.getMain().getTemp().toString());
         holder.mWeatherImage.setImageResource(R.drawable.sunny_clear);
         holder.mLocation.setText(mWeatherResponse.getCity().getName());
-       //holder.mDescription.setText(m);
+        //holder.mDescription.setText(m);
+
+
 
 
     }
@@ -127,8 +120,22 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
     @Override
     public int getItemCount() {
 
-        return mWeatherList.size();
+        return mWeatherList.size()> 0 ? 5 : 0;
     }
+
+
+
+    public int getIndexOfDate(String date) {
+        int index = 0;
+        for (int i = 0; i < mWeatherList.size(); i++) {
+            if (date.equals(mWeatherList.get(i).getDtTxt())) {
+                index = i;
+                break;
+            }
+        }
+        return index;
+    }
+
 
     public class WeatherViewHolder extends RecyclerView.ViewHolder {
 

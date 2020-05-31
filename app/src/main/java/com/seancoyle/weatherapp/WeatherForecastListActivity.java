@@ -176,8 +176,13 @@ public class WeatherForecastListActivity extends BaseActivity implements Weather
 
         WeatherList currentWeather = mWeatherList.get(position);
 
+        // Get the temperature as a double and remove the decimal places
+        double tempDouble = currentWeather.getMain().getTempMax();
+        int tempInt = (int) Math.round(tempDouble);
+        String tempString = String.valueOf(tempInt);
+
         // Displays a toast message when clicked with the maximum temperature
-        Toast.makeText(this, ""+currentWeather.getMain().getTempMax(), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, ""+tempString+"°C", Toast.LENGTH_SHORT).show();
     }
 
 

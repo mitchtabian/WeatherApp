@@ -11,7 +11,10 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:elevation="10dp"
         app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -32,45 +35,48 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="8dp"
                     android:gravity="center"
                     android:text="Date"
                     android:textColor="@color/black"
                     android:textSize="@dimen/weather_date_text_size"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/location"
                     app:layout_constraintEnd_toStartOf="@+id/guideline9"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/location"
-                    app:layout_constraintVertical_bias="0.75" />
+                    app:layout_constraintTop_toBottomOf="@+id/weatherImage" />
 
                 <TextView
                     android:id="@+id/location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
                     android:gravity="center"
                     android:text="Location"
                     android:textColor="@color/black"
                     android:textSize="@dimen/weather_date_text_size"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/guideline9"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/weatherImage" />
+                    app:layout_constraintTop_toBottomOf="@+id/date" />
 
                 <TextView
                     android:id="@+id/temperature"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginBottom="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:gravity="center"
                     android:text="Temperature"
                     android:textColor="@color/black"
                     android:textSize="@dimen/temperature_text_size"
                     app:layout_constraintBottom_toTopOf="@+id/guideline"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline15"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/guideline9"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -78,11 +84,14 @@
                     android:id="@+id/description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
                     android:gravity="center"
                     android:text="Description"
                     android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline15"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/guideline9"
                     app:layout_constraintTop_toTopOf="@+id/guideline"
                     app:layout_constraintVertical_bias="0.0" />
@@ -93,14 +102,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.3" />
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline15"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.9" />
+                    app:layout_constraintGuide_percent="0.4" />
 
                 <ImageView
                     android:id="@+id/weatherImage"
